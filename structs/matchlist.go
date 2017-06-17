@@ -1,6 +1,10 @@
 package structs
 
-import "sync"
+import (
+	"math/rand"
+	"sync"
+	"time"
+)
 
 const MaxIDListSize = 100000
 
@@ -15,8 +19,8 @@ type IDList struct {
 	// known int
 
 	// Concurrency mutexes
-	lockIDs      sync.Mutex
-	lockOverflow sync.Mutex
+	lockIDs sync.Mutex
+	// lockOverflow sync.Mutex
 }
 
 func NewIDList() *IDList {
@@ -72,6 +76,29 @@ func (ml *IDList) Available() bool {
 // Filled : Returns the percentage of the list capacity that's filled
 func (ml *IDList) Filled() float32 {
 	return (float32(len(ml.Queue)) / float32(MaxIDListSize)) * 100
+}
+
+func (ml *IDList) Shuffle() {
+	rand.Seed(time.Now().UnixNano())
+
+	ids := make([]RiotID, len(ml.Queue))
+
+	// Copy data out of the channel
+	for i := 0; i < len(ids); i++ {
+		ids[i] = <-ml.Queue
+	}
+
+	// Shuffle data
+	for here, _ := range ids {
+		there := rand.Intn(len(ids))
+
+		ids[here], ids[there] = ids[there], ids[here]
+	}
+
+	// Add it back to the channel
+	for i := 0; i < len(ids); i++ {
+		ml.Queue <- ids[i]
+	}
 }
 
 // Known : Return the number of ID's that have ever been blacklisted on this list.

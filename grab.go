@@ -67,6 +67,8 @@ func main() {
 		ui.UpdateQueuedSummoners(summoners.Filled())
 		ui.UpdateTotalSummoners(len(knownSummoners))
 	})
+	// Shuffle so we don't start with the same group every time.
+	summoners.Shuffle()
 
 	// TODO: scramble summoner list
 	ui.AddEvent("Loaded existing match database!")
