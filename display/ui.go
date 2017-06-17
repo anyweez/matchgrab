@@ -8,14 +8,21 @@ import (
 )
 
 type Display struct {
-	title            *termui.Par
+	title *termui.Par
+	// Total number of RECORDED matches. From MatchStore.Count()
 	statTotalMatches *termui.Par
-	statTotalSumms   *termui.Par
-	statRps          *termui.Par
-	statAliveTimer   *termui.Par
-	summoners        *termui.Gauge
-	matches          *termui.Gauge
-	events           *termui.List
+	// Total size of the 'summoner universe' - the number of summoner ID's we've seen
+	statTotalSumms *termui.Par
+	// Requests per second (all request types)
+	statRps *termui.Par
+	// How long the application has been running
+	statAliveTimer *termui.Par
+	// How full the summoner queue is
+	summoners *termui.Gauge
+	// How full the match queue is
+	matches *termui.Gauge
+	// Recent events
+	events *termui.List
 
 	_created time.Time
 }
@@ -44,14 +51,14 @@ func NewDisplay() *Display {
 
 	d.title.Border = false
 
-	d.statTotalMatches.BorderLabel = "Total matches"
-	d.statTotalMatches.Height = 3
-	d.statTotalSumms.BorderLabel = "Total summoners"
-	d.statTotalSumms.Height = 3
-	d.statRps.BorderLabel = "Requests per second"
-	d.statRps.Height = 3
 	d.statAliveTimer.BorderLabel = "Alive for"
 	d.statAliveTimer.Height = 3
+	d.statRps.BorderLabel = "Requests per second"
+	d.statRps.Height = 3
+	d.statTotalMatches.BorderLabel = "Stored matches"
+	d.statTotalMatches.Height = 3
+	d.statTotalSumms.BorderLabel = "Summoner universe"
+	d.statTotalSumms.Height = 3
 
 	d.summoners.BorderLabel = "Summoner queue"
 	// d.summoners.Percent = 20

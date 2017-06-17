@@ -4,15 +4,14 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/anyweez/kickoff/utils"
+	"github.com/anyweez/matchgrab/config"
 )
 
-// Match
 func Get(url string, cb func(body []byte)) {
 	client := http.Client{
-		Timeout: 20 * time.Second, // TODO: move to constants.go
+		Timeout: config.Config.HTTPTimeout,
 	}
 
 	request, err := http.NewRequest("GET", url, nil)

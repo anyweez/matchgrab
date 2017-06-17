@@ -91,6 +91,7 @@ func (ml *IDList) Filled() float32 {
 	return (float32(ml.count) / float32(MaxIDListSize+1000)) * 100
 }
 
+// Known : Return the number of ID's that have ever been blacklisted on this list.
 func (ml *IDList) Known() int {
 	return ml.known
 }

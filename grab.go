@@ -9,6 +9,7 @@ import (
 
 	"github.com/anyweez/kickoff/utils"
 	"github.com/anyweez/matchgrab/api"
+	"github.com/anyweez/matchgrab/config"
 	"github.com/anyweez/matchgrab/display"
 	"github.com/anyweez/matchgrab/structs"
 )
@@ -16,15 +17,12 @@ import (
 var done chan bool
 var matches *structs.IDList
 var summoners *structs.IDList
-var store structs.MatchStore
+var store *structs.MatchStore
 var ui *display.Display
 var rateLimit chan bool
 
-const (
-	MaxSimultaneousRequests = 1
-	RequestsPerMinute       = 120
-	RequestTimeout          = 20
-)
+// var knownMatches map[structs.RiotID]bool
+var knownSummoners map[structs.RiotID]bool
 
 func main() {
 	/* If we don't have an API key we can't do anything */
@@ -33,20 +31,25 @@ func main() {
 		return
 	}
 
+	// Initialize application configuration
+	config.Setup()
+
+	knownSummoners = make(map[structs.RiotID]bool, 0)
+
 	done = make(chan bool)
 	rateLimit = make(chan bool, 10)
 	matches = structs.NewIDList()
 	summoners = structs.NewIDList()
-	store = structs.NewMatchStore("demo.db")
+	store = structs.NewMatchStore(config.Config.MatchStoreLocation)
 	ui = display.NewDisplay()
 
-	summoners.Add(50669460)
+	summoners.Add(config.Config.SeedAccount)
 
 	// Rate limit channel
 	go func() {
 		for {
 			rateLimit <- true
-			time.Sleep(1 * time.Minute / RequestsPerMinute)
+			time.Sleep((1 * time.Minute) / time.Duration(config.Config.RequestsPerMinute))
 		}
 	}()
 
@@ -57,12 +60,13 @@ func main() {
 			matches.Blacklist(m.GameID) // don't need to re-run matches
 
 			for i := 0; i < len(m.Participants); i++ {
-				// Some duplicates, many new folks as well
+				// Some duplicates (fine), many new folks as well
 				summoners.Add(m.Participants[i].AccountID)
+				knownSummoners[m.Participants[i].AccountID] = true
 			}
 
 			ui.UpdateQueuedSummoners(summoners.Filled())
-			ui.UpdateTotalSummoners(summoners.Known())
+			ui.UpdateTotalSummoners(len(knownSummoners))
 		})
 	}()
 
@@ -79,7 +83,7 @@ func request() {
 	rpsInterval := 5 * time.Second // recompute @ this interval
 	rpsWindow := 30                // compute rps using records within this window (seconds)
 
-	for i := 0; i < MaxSimultaneousRequests; i++ {
+	for i := 0; i < config.Config.MaxSimultaneousRequests; i++ {
 		/* Launch a goroutine to make requests */
 		go func() {
 			for {
@@ -114,7 +118,6 @@ func request() {
 				ui.UpdateRequestsPerSecond(rps)
 
 				lastRps = time.Now()
-				// fmt.Println(fmt.Sprintf("updated rps: %.2f", rps))
 			}
 
 			time.Sleep(1 * time.Second)
@@ -143,10 +146,11 @@ func getMatch() {
 		// Add all account ID's to the summoner queue.
 		for i := 0; i < len(match.Participants); i++ {
 			summoners.Add(match.Participants[i].AccountID)
+			knownSummoners[match.Participants[i].AccountID] = true
 		}
 
 		ui.UpdateQueuedSummoners(summoners.Filled())
-		ui.UpdateTotalSummoners(summoners.Known())
+		ui.UpdateTotalSummoners(len(knownSummoners))
 	})
 }
 
@@ -176,6 +180,6 @@ func getSummoner() {
 		}
 
 		ui.UpdateQueuedMatches(matches.Filled())
-		ui.UpdateTotalMatches(matches.Known())
+		ui.UpdateTotalMatches(store.Count())
 	})
 }
