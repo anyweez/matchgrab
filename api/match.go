@@ -9,6 +9,7 @@ import (
 	"github.com/anyweez/matchgrab/config"
 )
 
+// Get : Make a request to the Riot API and call the specified function on success.
 func Get(url string, cb func(body []byte)) {
 	client := http.Client{
 		Timeout: config.Config.HTTPTimeout,
@@ -31,7 +32,7 @@ func Get(url string, cb func(body []byte)) {
 	defer resp.Body.Close()
 	raw, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		utils.Log(err.Error())
+		// utils.Log(err.Error())
 		return
 	}
 

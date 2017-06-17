@@ -3,6 +3,7 @@ package structs
 import (
 	"bytes"
 	"encoding/gob"
+	"sync"
 
 	"github.com/syndtr/goleveldb/leveldb"
 )
@@ -12,6 +13,8 @@ type MatchStore struct {
 	db        *leveldb.DB
 	count     int
 	countInit bool // becomes true if the count is accurate
+
+	dbLock sync.Mutex
 }
 
 func NewMatchStore(filename string) *MatchStore {
@@ -21,12 +24,24 @@ func NewMatchStore(filename string) *MatchStore {
 		countInit: false,
 	}
 
-	ms.db, _ = leveldb.OpenFile(filename, nil)
+	var err error
+	ms.db, err = leveldb.OpenFile(filename, nil)
+
+	if err != nil {
+		panic("Cannot open LevelDB records: " + err.Error())
+	}
 
 	// Goroutine that asynchronously writes match data.
 	go func() {
 		for m := range ms.queue {
-			ms.db.Put(m.GameID.Bytes(), m.Bytes(), nil)
+			// ms.dbLock.Lock()
+			err := ms.db.Put(m.GameID.Bytes(), m.Bytes(), nil)
+
+			if err != nil {
+				panic("Error writing record: " + err.Error())
+			}
+
+			// ms.dbLock.Unlock()
 			ms.count++
 		}
 	}()
@@ -47,7 +62,9 @@ func (ms *MatchStore) Add(m Match) {
 
 // Each : Extract matches one by one.
 func (ms *MatchStore) Each(fn func(Match)) {
+	// ms.dbLock.Lock()
 	iter := ms.db.NewIterator(nil, nil)
+
 	for iter.Next() {
 		value := iter.Value()
 
@@ -63,6 +80,11 @@ func (ms *MatchStore) Each(fn func(Match)) {
 			ms.count++
 		}
 	}
+	// ms.dbLock.Unlock()
 
 	ms.countInit = true
+}
+
+func (ms *MatchStore) Close() {
+	ms.db.Close()
 }

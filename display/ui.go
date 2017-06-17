@@ -31,7 +31,7 @@ const (
 	eventCount = 20
 )
 
-func NewDisplay() *Display {
+func NewDisplay(cleanup func()) *Display {
 	if err := termui.Init(); err != nil {
 		panic(err)
 	}
@@ -96,12 +96,14 @@ func NewDisplay() *Display {
 		// press q to quit
 		termui.StopLoop()
 		termui.Close()
+
+		cleanup()
 	})
 
 	termui.Handle("/timer/1s", func(termui.Event) {
 		d.statAliveTimer.Text = " " + time.Since(d._created).String()
 
-		termui.Body.Align()
+		termui.Body.Align() // TODO: necessary?
 		termui.Render(termui.Body)
 	})
 

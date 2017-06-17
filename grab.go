@@ -41,7 +41,7 @@ func main() {
 	matches = structs.NewIDList()
 	summoners = structs.NewIDList()
 	store = structs.NewMatchStore(config.Config.MatchStoreLocation)
-	ui = display.NewDisplay()
+	ui = display.NewDisplay(Shutdown)
 
 	summoners.Add(config.Config.SeedAccount)
 
@@ -54,21 +54,22 @@ func main() {
 	}()
 
 	// Load all existing matches and summoners in parallel
-	go func() {
-		store.Each(func(m structs.Match) {
-			ui.AddEvent(fmt.Sprintf("[ Match  ] Loading %d...", m.GameID))
-			matches.Blacklist(m.GameID) // don't need to re-run matches
+	store.Each(func(m structs.Match) {
+		ui.AddEvent(fmt.Sprintf("[ Match  ] Loading %d...", m.GameID))
+		matches.Blacklist(m.GameID) // don't need to re-run matches
 
-			for i := 0; i < len(m.Participants); i++ {
-				// Some duplicates (fine), many new folks as well
-				summoners.Add(m.Participants[i].AccountID)
-				knownSummoners[m.Participants[i].AccountID] = true
-			}
+		for i := 0; i < len(m.Participants); i++ {
+			// Some duplicates (fine), many new folks as well
+			summoners.Add(m.Participants[i].AccountID)
+			knownSummoners[m.Participants[i].AccountID] = true
+		}
 
-			ui.UpdateQueuedSummoners(summoners.Filled())
-			ui.UpdateTotalSummoners(len(knownSummoners))
-		})
-	}()
+		ui.UpdateQueuedSummoners(summoners.Filled())
+		ui.UpdateTotalSummoners(len(knownSummoners))
+	})
+
+	// TODO: scramble summoner list
+	ui.AddEvent("Loaded existing match database!")
 
 	/* Load all existing matches */
 	request()
@@ -126,7 +127,12 @@ func request() {
 }
 
 func getMatch() {
-	match := matches.Next()
+	match, available := matches.Next()
+	if !available {
+		ui.AddEvent(fmt.Sprintf("[ Match  ] Queue empty, skipping..."))
+		return
+	}
+
 	ui.AddEvent(fmt.Sprintf("[ Match  ] Fetching %d...", match))
 
 	url := fmt.Sprintf(
@@ -157,7 +163,12 @@ func getMatch() {
 // Fetch a new set of match ID's for a new summoner. All returned match ID's are queued
 // up for future requests.
 func getSummoner() {
-	summoner := summoners.Next()
+	summoner, available := summoners.Next()
+	if !available {
+		ui.AddEvent(fmt.Sprintf("[Summoner] Queue empty, skipping..."))
+		return
+	}
+
 	ui.AddEvent(fmt.Sprintf("[Summoner] Fetching %d...", summoner))
 
 	url := fmt.Sprintf(
@@ -182,4 +193,11 @@ func getSummoner() {
 		ui.UpdateQueuedMatches(matches.Filled())
 		ui.UpdateTotalMatches(store.Count())
 	})
+}
+
+// Shutdown : Called by termui when the user indicates they want to quit
+func Shutdown() {
+	store.Close()
+
+	done <- true
 }
