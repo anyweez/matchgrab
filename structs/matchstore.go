@@ -13,6 +13,7 @@ type MatchStore struct {
 	db        *leveldb.DB
 	count     int
 	countInit bool // becomes true if the count is accurate
+	open      bool
 
 	dbLock sync.Mutex
 }
@@ -22,6 +23,7 @@ func NewMatchStore(filename string) *MatchStore {
 		queue:     make(chan Match, 10),
 		count:     0,
 		countInit: false,
+		open:      false,
 	}
 
 	var err error
@@ -30,19 +32,20 @@ func NewMatchStore(filename string) *MatchStore {
 	if err != nil {
 		panic("Cannot open LevelDB records: " + err.Error())
 	}
+	ms.open = true
 
 	// Goroutine that asynchronously writes match data.
 	go func() {
 		for m := range ms.queue {
-			// ms.dbLock.Lock()
-			err := ms.db.Put(m.GameID.Bytes(), m.Bytes(), nil)
+			if ms.open {
+				err := ms.db.Put(m.GameID.Bytes(), m.Bytes(), nil)
 
-			if err != nil {
-				panic("Error writing record: " + err.Error())
+				if err != nil {
+					panic("Error writing record: " + err.Error())
+				}
+
+				ms.count++
 			}
-
-			// ms.dbLock.Unlock()
-			ms.count++
 		}
 	}()
 
@@ -86,5 +89,6 @@ func (ms *MatchStore) Each(fn func(Match)) {
 }
 
 func (ms *MatchStore) Close() {
+	ms.open = false
 	ms.db.Close()
 }

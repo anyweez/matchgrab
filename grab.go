@@ -15,6 +15,7 @@ import (
 )
 
 var done chan bool
+var requestRoutines chan bool // respawn routines if they die
 var matches *structs.IDList
 var summoners *structs.IDList
 var store *structs.MatchStore
@@ -37,7 +38,8 @@ func main() {
 	knownSummoners = make(map[structs.RiotID]bool, 0)
 
 	done = make(chan bool)
-	rateLimit = make(chan bool, 10)
+	requestRoutines = make(chan bool, config.Config.MaxSimultaneousRequests)
+	rateLimit = make(chan bool, 100)
 	matches = structs.NewIDList()
 	summoners = structs.NewIDList()
 	store = structs.NewMatchStore(config.Config.MatchStoreLocation)
@@ -87,19 +89,7 @@ func request() {
 	rpsWindow := 30                // compute rps using records within this window (seconds)
 
 	for i := 0; i < config.Config.MaxSimultaneousRequests; i++ {
-		/* Launch a goroutine to make requests */
-		go func() {
-			for {
-				<-rateLimit                                      // Make sure we aren't rate limited
-				if rand.Float32() > 0.1 && matches.Available() { // Request match
-					getMatch()
-					requestLog <- time.Now()
-				} else if summoners.Available() { // Request summoner games
-					getSummoner()
-					requestLog <- time.Now()
-				}
-			}
-		}()
+		requestRoutines <- true
 	}
 
 	// RPS calculation
@@ -126,6 +116,22 @@ func request() {
 			time.Sleep(1 * time.Second)
 		}
 	}()
+
+	for <-requestRoutines {
+		/* Launch a goroutine to make requests */
+		go func() {
+			for {
+				<-rateLimit                                      // Make sure we aren't rate limited
+				if rand.Float32() > 0.1 && matches.Available() { // Request match
+					getMatch()
+					requestLog <- time.Now()
+				} else if summoners.Available() { // Request summoner games
+					getSummoner()
+					requestLog <- time.Now()
+				}
+			}
+		}()
+	}
 }
 
 func getMatch() {
@@ -178,7 +184,7 @@ func getSummoner() {
 		summoner,
 	)
 
-	api.Get(url, func(body []byte) {
+	err := api.Get(url, func(body []byte) {
 		summaries := struct {
 			Matches []structs.MatchSummary `json:"matches"`
 		}{
@@ -195,6 +201,10 @@ func getSummoner() {
 		ui.UpdateQueuedMatches(matches.Filled())
 		ui.UpdateTotalMatches(store.Count())
 	})
+
+	if err != nil {
+		ui.AddEvent(err.Error())
+	}
 }
 
 // Shutdown : Called by termui when the user indicates they want to quit

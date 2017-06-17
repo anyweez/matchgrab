@@ -23,6 +23,6 @@ func Setup() {
 		MatchStoreLocation:      "/Volumes/LOLMatches/matches.db",
 		SeedAccount:             50669460,
 		MaxSimultaneousRequests: 4,
-		RequestsPerMinute:       240,
+		RequestsPerMinute:       360,
 	}
 }

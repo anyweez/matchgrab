@@ -28,7 +28,7 @@ type Display struct {
 }
 
 const (
-	eventCount = 20
+	eventCount = 30
 )
 
 func NewDisplay(cleanup func()) *Display {
@@ -91,9 +91,8 @@ func NewDisplay(cleanup func()) *Display {
 		),
 	)
 
-	// handle key q pressing
+	// press q to quit
 	termui.Handle("/sys/kbd/q", func(termui.Event) {
-		// press q to quit
 		termui.StopLoop()
 		termui.Close()
 
