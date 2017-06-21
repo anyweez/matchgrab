@@ -206,8 +206,14 @@ func getSummoner() {
 		json.Unmarshal(body, &summaries)
 
 		// Add all summoners to the
-		for i := 0; i < len(summaries.Matches); i++ {
-			matches.Add(summaries.Matches[i].GameID)
+		for _, match := range summaries.Matches {
+			matchTime := time.Unix(match.Timestamp/1000, 0)
+
+			// Only look for matches that occurred recently.
+			if time.Since(matchTime) < config.Config.MaxTimeAgo {
+				ui.AddEvent(matchTime.String())
+				matches.Add(match.GameID)
+			}
 		}
 
 		ui.UpdateQueuedMatches(matches.Filled())

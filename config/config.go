@@ -13,6 +13,7 @@ type config struct {
 
 	MaxSimultaneousRequests int
 	RequestsPerMinute       int
+	MaxTimeAgo              time.Duration
 }
 
 var Config config
@@ -24,5 +25,6 @@ func Setup() {
 		SeedAccount:             50669460,
 		MaxSimultaneousRequests: 6,
 		RequestsPerMinute:       480,
+		MaxTimeAgo:              time.Duration(60 * 24 * time.Hour), // 60 days
 	}
 }
