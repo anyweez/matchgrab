@@ -30,6 +30,12 @@ type APIMatch struct {
 		} `json:"player"`
 	}
 
+	Teams []struct {
+		Bans []struct {
+			ChampionID RiotID `json:"championId"`
+		} `json:"bans"`
+	}
+
 	GameMode string `json:"gameMode"`
 	MapID    int    `json:"mapId"`
 	GameType string `json:"gameType"`
@@ -51,14 +57,20 @@ type Match struct {
 	GameDuration int    `json:"gameDuration"`
 
 	Participants []Participant
+	Bans         []RiotID
 
 	GameMode string `json:"gameMode"`
 	MapID    int    `json:"mapId"`
 	GameType string `json:"gameType"`
 }
 
-// TODO: make this actually work
 func (m *Match) Banned(id RiotID) bool {
+	for _, ban := range m.Bans {
+		if ban == id {
+			return true
+		}
+	}
+
 	return false
 }
 
@@ -85,7 +97,6 @@ func (m *Match) Won(id RiotID) bool {
 }
 
 func (m Match) Bytes() []byte {
-	// buf := new(bytes.Buffer)
 	var buf bytes.Buffer
 	enc := gob.NewEncoder(&buf)
 
@@ -129,6 +140,13 @@ func ToMatch(raw APIMatch) Match {
 			ProfileIcon:  raw.ParticipantIdentities[i].Player.ProfileIcon,
 			SummonerName: raw.ParticipantIdentities[i].Player.SummonerName,
 			Winner:       raw.Participants[i].Stats.Win,
+		}
+	}
+
+	match.Bans = make([]RiotID, 0)
+	for _, team := range raw.Teams {
+		for _, ban := range team.Bans {
+			match.Bans = append(match.Bans, ban.ChampionID)
 		}
 	}
 
