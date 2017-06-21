@@ -62,10 +62,10 @@ func main() {
 		matches.Blacklist(m.GameID) // don't need to re-run matches
 
 		ksLock.Lock()
-		for i := 0; i < len(m.Participants); i++ {
+		for _, p := range m.Participants {
 			// Some duplicates (fine), many new folks as well
-			summoners.Add(m.Participants[i].AccountID)
-			knownSummoners[m.Participants[i].AccountID] = true
+			summoners.Add(p.AccountID)
+			knownSummoners[p.AccountID] = true
 		}
 		ksLock.Unlock()
 
@@ -211,7 +211,6 @@ func getSummoner() {
 
 			// Only look for matches that occurred recently.
 			if time.Since(matchTime) < config.Config.MaxTimeAgo {
-				ui.AddEvent(matchTime.String())
 				matches.Add(match.GameID)
 			}
 		}
