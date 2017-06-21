@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/gob"
+	"time"
 )
 
 // APIMatch : raw data returned from Riot's API. Converted to Match using ToMatch function
@@ -62,6 +63,10 @@ type Match struct {
 	GameMode string `json:"gameMode"`
 	MapID    int    `json:"mapId"`
 	GameType string `json:"gameType"`
+}
+
+func (m *Match) When() time.Time {
+	return time.Unix(m.GameCreation/1000, 0)
 }
 
 func (m *Match) Banned(id RiotID) bool {
