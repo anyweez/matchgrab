@@ -47,6 +47,8 @@ func (ml *IDList) Add(m RiotID) bool {
 			ml.Blacklist(m)
 
 			return true
+		default:
+			return false
 		}
 	}
 

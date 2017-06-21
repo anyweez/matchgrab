@@ -57,6 +57,33 @@ type Match struct {
 	GameType string `json:"gameType"`
 }
 
+// TODO: make this actually work
+func (m *Match) Banned(id RiotID) bool {
+	return false
+}
+
+// Picked : Returns a boolean indicating whether the specified champion played in this game.
+func (m *Match) Picked(id RiotID) bool {
+	for _, p := range m.Participants {
+		if id == p.ChampionID {
+			return true
+		}
+	}
+
+	return false
+}
+
+// Won : Returns a boolean indicating whether the specified champion won the game.
+func (m *Match) Won(id RiotID) bool {
+	for _, p := range m.Participants {
+		if id == p.ChampionID && p.Winner {
+			return true
+		}
+	}
+
+	return false
+}
+
 func (m Match) Bytes() []byte {
 	// buf := new(bytes.Buffer)
 	var buf bytes.Buffer

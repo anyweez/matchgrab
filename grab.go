@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"sync"
 	"time"
 
-	"github.com/anyweez/kickoff/utils"
 	"github.com/anyweez/matchgrab/api"
 	"github.com/anyweez/matchgrab/config"
 	"github.com/anyweez/matchgrab/display"
 	"github.com/anyweez/matchgrab/structs"
+	"github.com/anyweez/matchgrab/utils"
 )
 
 var done chan bool
@@ -24,6 +25,7 @@ var rateLimit chan bool
 
 // var knownMatches map[structs.RiotID]bool
 var knownSummoners map[structs.RiotID]bool
+var ksLock sync.Mutex
 
 func main() {
 	/* If we don't have an API key we can't do anything */
@@ -36,7 +38,6 @@ func main() {
 	config.Setup()
 
 	knownSummoners = make(map[structs.RiotID]bool, 0)
-
 	done = make(chan bool)
 	requestRoutines = make(chan bool, config.Config.MaxSimultaneousRequests)
 	rateLimit = make(chan bool, 100)
@@ -60,11 +61,13 @@ func main() {
 		ui.AddEvent(fmt.Sprintf("[ Match  ] Loading %d...", m.GameID))
 		matches.Blacklist(m.GameID) // don't need to re-run matches
 
+		ksLock.Lock()
 		for i := 0; i < len(m.Participants); i++ {
 			// Some duplicates (fine), many new folks as well
 			summoners.Add(m.Participants[i].AccountID)
 			knownSummoners[m.Participants[i].AccountID] = true
 		}
+		ksLock.Unlock()
 
 		ui.UpdateQueuedSummoners(summoners.Filled())
 		ui.UpdateTotalSummoners(len(knownSummoners))
@@ -120,6 +123,13 @@ func request() {
 	for <-requestRoutines {
 		/* Launch a goroutine to make requests */
 		go func() {
+			defer func() {
+				if r := recover(); r != nil {
+					ui.AddEvent("Request goroutine crashed; re-launching...")
+					requestRoutines <- true
+				}
+			}()
+
 			for {
 				<-rateLimit                                      // Make sure we aren't rate limited
 				if rand.Float32() > 0.1 && matches.Available() { // Request match
@@ -158,10 +168,12 @@ func getMatch() {
 		store.Add(match)
 
 		// Add all account ID's to the summoner queue.
+		ksLock.Lock()
 		for i := 0; i < len(match.Participants); i++ {
 			summoners.Add(match.Participants[i].AccountID)
 			knownSummoners[match.Participants[i].AccountID] = true
 		}
+		ksLock.Unlock()
 
 		ui.UpdateQueuedSummoners(summoners.Filled())
 		ui.UpdateTotalSummoners(len(knownSummoners))
@@ -212,4 +224,6 @@ func Shutdown() {
 	store.Close()
 
 	done <- true
+
+	os.Exit(0)
 }

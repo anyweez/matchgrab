@@ -22,7 +22,7 @@ func Setup() {
 		HTTPTimeout:             20 * time.Second,
 		MatchStoreLocation:      "/Volumes/LOLMatches/matches.db",
 		SeedAccount:             50669460,
-		MaxSimultaneousRequests: 4,
-		RequestsPerMinute:       360,
+		MaxSimultaneousRequests: 6,
+		RequestsPerMinute:       480,
 	}
 }
