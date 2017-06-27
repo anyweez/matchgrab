@@ -42,6 +42,8 @@ type APIMatch struct {
 	GameType string `json:"gameType"`
 }
 
+// RiotID : Canonical identifier for everything that comes from Riot, including summoner ID's, champion ID's,
+// and account ID's.
 type RiotID int64
 
 func (r RiotID) Bytes() []byte {
@@ -63,6 +65,44 @@ type Match struct {
 	GameMode string `json:"gameMode"`
 	MapID    int    `json:"mapId"`
 	GameType string `json:"gameType"`
+
+	packed       bool
+	packedBans   *PackedChampBooleanArray
+	packedPicked *PackedChampBooleanArray
+	packedWon    *PackedChampBooleanArray
+	// packedBans   map[RiotID]bool // maps champion id to `true`
+	// packedPicked map[RiotID]bool // maps champion id to `true`
+	// packedWon    map[RiotID]bool // maps champion id to whether champ won or not
+}
+
+func (m *Match) Pack(packer *ChampPack) {
+	if m.packed {
+		return
+	}
+
+	m.packed = true
+
+	m.packedBans = NewPackedChampBooleanArray(packer)
+	for _, b := range m.Bans {
+		// TODO: currently getting random -1's in ban list. Remove @ retrieval?
+		if b > 0 {
+			m.packedBans.Set(b, true)
+		}
+	}
+
+	m.packedPicked = NewPackedChampBooleanArray(packer)
+	for _, p := range m.Participants {
+		if p.ChampionID > 0 {
+			m.packedPicked.Set(p.ChampionID, true)
+		}
+	}
+
+	m.packedWon = NewPackedChampBooleanArray(packer)
+	for _, p := range m.Participants {
+		if p.ChampionID > 0 {
+			m.packedWon.Set(p.ChampionID, p.Winner)
+		}
+	}
 }
 
 func (m *Match) When() time.Time {
@@ -70,6 +110,13 @@ func (m *Match) When() time.Time {
 }
 
 func (m *Match) Banned(id RiotID) bool {
+	// Constant time if packed, linear if not packed
+	if m.packed {
+		val, exists := m.packedBans.Get(id)
+
+		return exists && val
+	}
+
 	for _, ban := range m.Bans {
 		if ban == id {
 			return true
@@ -81,6 +128,13 @@ func (m *Match) Banned(id RiotID) bool {
 
 // Picked : Returns a boolean indicating whether the specified champion played in this game.
 func (m *Match) Picked(id RiotID) bool {
+	// Constant time if packed, linear if not packed
+	if m.packed {
+		val, exists := m.packedPicked.Get(id)
+
+		return exists && val
+	}
+
 	for _, p := range m.Participants {
 		if id == p.ChampionID {
 			return true
@@ -92,6 +146,12 @@ func (m *Match) Picked(id RiotID) bool {
 
 // Won : Returns a boolean indicating whether the specified champion won the game.
 func (m *Match) Won(id RiotID) bool {
+	if m.packed {
+		val, exists := m.packedWon.Get(id)
+
+		return exists && val
+	}
+
 	for _, p := range m.Participants {
 		if id == p.ChampionID && p.Winner {
 			return true
