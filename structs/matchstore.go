@@ -64,7 +64,7 @@ func (ms *MatchStore) Add(m Match) {
 }
 
 // Each : Extract matches one by one.
-func (ms *MatchStore) Each(fn func(Match)) {
+func (ms *MatchStore) Each(fn func(*Match)) {
 	// ms.dbLock.Lock()
 	iter := ms.db.NewIterator(nil, nil)
 
@@ -77,7 +77,7 @@ func (ms *MatchStore) Each(fn func(Match)) {
 		match := Match{}
 		dec.Decode(&match)
 
-		fn(match)
+		fn(&match)
 
 		if !ms.countInit {
 			ms.count++

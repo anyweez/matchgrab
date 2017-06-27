@@ -57,7 +57,7 @@ func main() {
 	}()
 
 	// Load all existing matches and summoners in parallel
-	store.Each(func(m structs.Match) {
+	store.Each(func(m *structs.Match) {
 		ui.AddEvent(fmt.Sprintf("[ Match  ] Loading %d...", m.GameID))
 		matches.Blacklist(m.GameID) // don't need to re-run matches
 
