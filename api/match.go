@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/anyweez/kickoff/utils"
 	"github.com/anyweez/matchgrab/config"
+	"github.com/anyweez/matchgrab/utils"
 )
 
 // Get : Make a request to the Riot API and call the specified function on success.
