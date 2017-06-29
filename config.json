@@ -1,0 +1,8 @@
+{
+    "http_timeout": "20s",
+    "match_store_location": "matches/db",
+    "seed_account": 50669460,
+    "max_sim_requests": 6,
+    "requests_per_min": 480,
+    "max_time_ago": "1440h"
+}
