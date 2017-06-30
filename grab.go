@@ -120,7 +120,7 @@ func requestLoop() {
 		}
 	}()
 
-	pace.Each(func() {
+	pace.Run(func() {
 		if rand.Float32() > 0.1 && matches.Available() { // Request match
 			getMatch()
 			requestLog <- time.Now()

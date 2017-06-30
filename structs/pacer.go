@@ -82,7 +82,7 @@ func (p *Pacer) PauseFor(d time.Duration) {
 // likely that multiple instances will be running at once if that's > 1.
 //
 // If count is zero, runs indefinitely.
-func (p *Pacer) Each(fn func(), count int) {
+func (p *Pacer) Run(fn func(), count int) {
 	if count == 0 { // infinite
 		for {
 			p.queue <- fn
