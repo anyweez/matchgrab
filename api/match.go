@@ -3,7 +3,6 @@ package api
 import (
 	"io/ioutil"
 	"net/http"
-	"os"
 
 	"github.com/anyweez/matchgrab/config"
 	"github.com/anyweez/matchgrab/utils"
@@ -20,7 +19,7 @@ func Get(url string, cb func(body []byte)) error {
 		utils.Log(err.Error())
 		return err
 	}
-	request.Header.Set("X-Riot-Token", os.Getenv("RIOT_API_KEY"))
+	request.Header.Set("X-Riot-Token", config.Config.RiotAPIKey)
 
 	resp, err := client.Do(request)
 	if err != nil {
