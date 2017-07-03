@@ -123,21 +123,32 @@ func requestLoop() {
 	// Seed the RNG
 	rand.Seed(time.Now().Unix())
 	pace.Run(func() {
+		wait := 0
+
 		if rand.Float32() < matches.Filled() { // Request match
-			getMatch()
+			wait = getMatch()
+
 			requestLog <- time.Now()
 		} else if summoners.Available() { // Request summoner games
-			getSummoner()
+			wait = getSummoner()
 			requestLog <- time.Now()
+		}
+
+		// If the selected function instructed us to pause, do it.
+		if wait > 0 {
+			pace.PauseFor(time.Duration(wait) * time.Second)
 		}
 	}, 0)
 }
 
-func getMatch() {
+// getMatch : Fetches match information for the next match in the queue and adds it to
+// the match store. Returns the number of seconds to wait before making another request
+// (usually zero unless a rate limit was encountered).
+func getMatch() int {
 	match, available := matches.Next()
 	if !available {
 		ui.AddEvent(fmt.Sprintf("[ Match  ] Queue empty, skipping..."))
-		return
+		return 0
 	}
 
 	ui.AddEvent(fmt.Sprintf("[ Match  ] Fetching %d...", match))
@@ -148,7 +159,7 @@ func getMatch() {
 		os.Getenv("RIOT_API_KEY"),
 	)
 
-	api.Get(url, func(body []byte) {
+	err, wait := api.Get(url, func(body []byte) {
 		var full structs.APIMatch
 		json.Unmarshal(body, &full)
 
@@ -167,15 +178,21 @@ func getMatch() {
 		ui.UpdateQueuedSummoners(summoners.Filled() * 100)
 		ui.UpdateTotalSummoners(len(knownSummoners))
 	})
+
+	if err != nil {
+		ui.AddEvent(err.Error())
+	}
+
+	return wait
 }
 
 // Fetch a new set of match ID's for a new summoner. All returned match ID's are queued
 // up for future requests.
-func getSummoner() {
+func getSummoner() int {
 	summoner, available := summoners.Next()
 	if !available {
 		ui.AddEvent(fmt.Sprintf("[Summoner] Queue empty, skipping..."))
-		return
+		return 0
 	}
 
 	ui.AddEvent(fmt.Sprintf("[Summoner] Fetching %d...", summoner))
@@ -185,7 +202,7 @@ func getSummoner() {
 		summoner,
 	)
 
-	err := api.Get(url, func(body []byte) {
+	err, wait := api.Get(url, func(body []byte) {
 		summaries := struct {
 			Matches []structs.MatchSummary `json:"matches"`
 		}{
@@ -211,6 +228,8 @@ func getSummoner() {
 	if err != nil {
 		ui.AddEvent(err.Error())
 	}
+
+	return wait
 }
 
 // Shutdown : Called by termui when the user indicates they want to quit
