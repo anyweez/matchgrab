@@ -70,9 +70,6 @@ type Match struct {
 	packedBans   *PackedChampBooleanArray
 	packedPicked *PackedChampBooleanArray
 	packedWon    *PackedChampBooleanArray
-	// packedBans   map[RiotID]bool // maps champion id to `true`
-	// packedPicked map[RiotID]bool // maps champion id to `true`
-	// packedWon    map[RiotID]bool // maps champion id to whether champ won or not
 }
 
 func (m *Match) Pack(packer *ChampPack) {

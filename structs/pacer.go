@@ -1,6 +1,9 @@
 package structs
 
-import "time"
+import (
+	"sync"
+	"time"
+)
 
 // Pacer : Runs a function at a specified rate. In matchgrab this is being used for making
 // API requests to Riot but I think its written generically enough that it could be repurposed
@@ -17,9 +20,9 @@ type Pacer struct {
 	requestsPerMinute       int
 	maxSimultaneousRequests int
 
-	sim       chan bool // keep track of how many are running now
-	next      chan bool
-	pausedFor time.Duration
+	next             chan bool
+	pausedFor        time.Duration
+	acceptingNewRuns bool // only false when Close() has been called
 
 	queue chan func()
 }
@@ -30,9 +33,10 @@ func NewPacer(rpm int, sim int) *Pacer {
 		maxSimultaneousRequests: sim,
 
 		// sim:  make(chan bool, sim),
-		next:      make(chan bool),
-		queue:     make(chan func()),
-		pausedFor: 0, // not required, but explicit > implicit :)
+		next:             make(chan bool),
+		queue:            make(chan func()),
+		pausedFor:        0, // not required, but explicit > implicit :)
+		acceptingNewRuns: true,
 	}
 
 	// Start pacing goroutine
@@ -85,11 +89,30 @@ func (p *Pacer) PauseFor(d time.Duration) {
 func (p *Pacer) Run(fn func(), count int) {
 	if count == 0 { // infinite
 		for {
-			p.queue <- fn
+			if p.acceptingNewRuns {
+				p.queue <- fn
+			}
 		}
 	} else { // finite # of calls
+		var wg sync.WaitGroup
+		wg.Add(count)
+
 		for i := 0; i < count; i++ {
-			p.queue <- fn
+			if p.acceptingNewRuns {
+				p.queue <- func() {
+					fn()
+					wg.Done()
+				}
+			}
 		}
+		// Wait for all runs to finish
+		wg.Wait()
 	}
+}
+
+func (p *Pacer) Close() {
+	p.acceptingNewRuns = false
+
+	close(p.next)
+	close(p.queue)
 }
