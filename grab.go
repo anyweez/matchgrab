@@ -12,7 +12,6 @@ import (
 	"github.com/anyweez/matchgrab/config"
 	"github.com/anyweez/matchgrab/display"
 	"github.com/anyweez/matchgrab/structs"
-	"github.com/anyweez/matchgrab/utils"
 )
 
 var done chan bool
@@ -23,17 +22,10 @@ var store *structs.MatchStore
 var ui *display.Display
 var rateLimit chan bool
 
-// var knownMatches map[structs.RiotID]bool
 var knownSummoners map[structs.RiotID]bool
 var ksLock sync.Mutex
 
 func main() {
-	/* If we don't have an API key we can't do anything */
-	if len(os.Getenv("RIOT_API_KEY")) == 0 {
-		utils.Log("No RIOT_API_KEY specified; cannot continue.\n")
-		return
-	}
-
 	// Initialize application configuration
 	config.Setup()
 
@@ -143,9 +135,8 @@ func getMatch() {
 	ui.AddEvent(fmt.Sprintf("[ Match  ] Fetching %d...", match))
 
 	url := fmt.Sprintf(
-		"https://na1.api.riotgames.com/lol/match/v3/matches/%d?api_key=%s",
+		"https://na1.api.riotgames.com/lol/match/v3/matches/%d",
 		match,
-		os.Getenv("RIOT_API_KEY"),
 	)
 
 	api.Get(url, func(body []byte) {
