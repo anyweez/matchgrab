@@ -75,25 +75,25 @@ func main() {
 	// Shuffle so we don't start with the same group every time.
 	summoners.Shuffle()
 
-	// TODO: scramble summoner list
 	ui.AddEvent("Loaded existing match database!")
 
-	/* Load all existing matches */
-	request()
+	// Start requesting and never stop.
+	requestLoop()
 
 	<-done
 }
 
-func request() {
-	// Requests must ALWAYS be queued earliest first. This order is assumed for rps counting.
-	requestLog := make(chan time.Time, 100000)
+func requestLoop() {
 	lastRps := time.Now()
 	rpsInterval := 5 * time.Second // recompute @ this interval
 	rpsWindow := 30                // compute rps using records within this window (seconds)
-
-	for i := 0; i < config.Config.MaxSimultaneousRequests; i++ {
-		requestRoutines <- true
-	}
+	// Start running the requests
+	pace := structs.NewPacer(
+		config.Config.RequestsPerMinute,
+		config.Config.MaxSimultaneousRequests,
+	)
+	// Requests must ALWAYS be queued earliest first. This order is assumed for rps counting.
+	requestLog := make(chan time.Time, 100000)
 
 	// RPS calculation
 	go func() {
@@ -120,28 +120,15 @@ func request() {
 		}
 	}()
 
-	for <-requestRoutines {
-		/* Launch a goroutine to make requests */
-		go func() {
-			defer func() {
-				if r := recover(); r != nil {
-					ui.AddEvent("Request goroutine crashed; re-launching...")
-					requestRoutines <- true
-				}
-			}()
-
-			for {
-				<-rateLimit                                      // Make sure we aren't rate limited
-				if rand.Float32() > 0.1 && matches.Available() { // Request match
-					getMatch()
-					requestLog <- time.Now()
-				} else if summoners.Available() { // Request summoner games
-					getSummoner()
-					requestLog <- time.Now()
-				}
-			}
-		}()
-	}
+	pace.Run(func() {
+		if rand.Float32() > 0.1 && matches.Available() { // Request match
+			getMatch()
+			requestLog <- time.Now()
+		} else if summoners.Available() { // Request summoner games
+			getSummoner()
+			requestLog <- time.Now()
+		}
+	}, 0)
 }
 
 func getMatch() {
