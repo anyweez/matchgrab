@@ -2,7 +2,6 @@ package config
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"time"
 
@@ -48,8 +47,6 @@ func Setup() {
 		}{}
 
 		json.Unmarshal(raw, &specified)
-
-		fmt.Println(specified)
 
 		// Replace timeout if its present (parse first!)
 		if specified.HTTPTimeout != "" {

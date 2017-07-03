@@ -77,7 +77,7 @@ func (ml *IDList) Available() bool {
 
 // Filled : Returns the percentage of the list capacity that's filled
 func (ml *IDList) Filled() float32 {
-	return (float32(len(ml.Queue)) / float32(MaxIDListSize)) * 100
+	return (float32(len(ml.Queue)) / float32(MaxIDListSize))
 }
 
 func (ml *IDList) Shuffle() {
