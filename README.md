@@ -15,7 +15,7 @@ Once you're happy with the configuration, you can run the tool by executing the 
 Matchgrab is designed to be simple when it can be, but there are a few configuration options that are important to be aware of.
 
 ```
-http_timeout            : how long all network requests receive before timing out (must be a [golang duration string](https://golang.org/pkg/time/#ParseDuration))
+http_timeout            : how long all network requests receive before timing out
 
 match_store_location    : where downloaded match data should be stored
 
@@ -25,11 +25,9 @@ max_sim_requests        : the maximum number of simultaneous requests that will 
 
 requests_per_min        : the maximum number of requests that will be attempted in a minute
 
-max_time_ago            : ignore matches beyond this age (default ~2 months, must be a [golang duration string]
-(https://golang.org/pkg/time/#ParseDuration))
+max_time_ago            : ignore matches beyond this age (default ~2 months)
 
 riot_api_key            : copy and paste your API key from Riot here; used for all requests that require one
-
 ```
 
 ## Accessing data
