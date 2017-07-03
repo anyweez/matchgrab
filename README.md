@@ -1,10 +1,10 @@
 # Matchgrab: League of Legends match importer
 
-Matchgrab retrieves League of Legends match data from [Riot's API](https://developer.riotgames.com). It starts with a seed user, downloads all match data for that user, and then performs the same process for other summoners who played in the downloaded matches. It continues this process until you stop it.
+Matchgrab retrieves League of Legends match data from [Riot's API](https://developer.riotgames.com). It starts with a seed user, starts downloading match data for that user, and then performs the same process for other summoners who played in the downloaded matches. It continues this process until you stop it.
 
 You must have an [API key issued by Riot](https://developer.riotgames.com/) in order to use this tool, and you will only be able to download data at the rates that Riot allows. 
 
-## To use
+## Collecting data
 
 To use matchgrab, first check out the configuration file to make sure you're happy with all defaults; one thing you'll definitely need to change is to provide your [Riot-issued API key](https://developer.riotgames.com/) in the `riot_api_key` field. You'll likely also want to specify where match data should be saved using the `match_store_location` field.
 
