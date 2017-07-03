@@ -69,7 +69,7 @@ func main() {
 		}
 		ksLock.Unlock()
 
-		ui.UpdateQueuedSummoners(summoners.Filled())
+		ui.UpdateQueuedSummoners(summoners.Filled() * 100)
 		ui.UpdateTotalSummoners(len(knownSummoners))
 	})
 	// Shuffle so we don't start with the same group every time.
@@ -120,8 +120,10 @@ func requestLoop() {
 		}
 	}()
 
+	// Seed the RNG
+	rand.Seed(time.Now().Unix())
 	pace.Run(func() {
-		if rand.Float32() > 0.1 && matches.Available() { // Request match
+		if rand.Float32() < matches.Filled() { // Request match
 			getMatch()
 			requestLog <- time.Now()
 		} else if summoners.Available() { // Request summoner games
@@ -162,7 +164,7 @@ func getMatch() {
 		}
 		ksLock.Unlock()
 
-		ui.UpdateQueuedSummoners(summoners.Filled())
+		ui.UpdateQueuedSummoners(summoners.Filled() * 100)
 		ui.UpdateTotalSummoners(len(knownSummoners))
 	})
 }
@@ -202,7 +204,7 @@ func getSummoner() {
 			}
 		}
 
-		ui.UpdateQueuedMatches(matches.Filled())
+		ui.UpdateQueuedMatches(matches.Filled() * 100)
 		ui.UpdateTotalMatches(store.Count())
 	})
 
