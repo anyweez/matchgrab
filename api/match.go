@@ -29,7 +29,7 @@ func Get(url string, cb func(body []byte)) (error, int) {
 		utils.Log(err.Error())
 		return err, 0
 	}
-	request.Header.Set("X-Riot-Token", os.Getenv("RIOT_API_KEY"))
+	request.Header.Set("X-Riot-Token", config.Config.RiotAPIKey)
 
 	resp, err := client.Do(request)
 

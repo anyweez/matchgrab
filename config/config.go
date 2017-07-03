@@ -3,6 +3,7 @@ package config
 import (
 	"encoding/json"
 	"io/ioutil"
+	"os"
 	"time"
 
 	"github.com/anyweez/matchgrab/structs"
@@ -16,6 +17,7 @@ type config struct {
 	MaxSimultaneousRequests int           `json:"max_sim_requests"`
 	RequestsPerMinute       int           `json:"requests_per_min"`
 	MaxTimeAgo              time.Duration `json:"max_time_ago"`
+	RiotAPIKey              string        `json:"riot_api_key"`
 }
 
 var Config config
@@ -32,6 +34,7 @@ func Setup() {
 		MaxSimultaneousRequests: 6,
 		RequestsPerMinute:       480,
 		MaxTimeAgo:              time.Duration(60 * 24 * time.Hour), // 60 days
+		RiotAPIKey:              "",
 	}
 
 	// TODO: probably a cleaner way to do this; need to find golang pattern
@@ -44,6 +47,7 @@ func Setup() {
 			MaxSimultaneousRequests int    `json:"max_sim_requests"`
 			RequestsPerMinute       int    `json:"requests_per_min"`
 			MaxTimeAgo              string `json:"max_time_ago"`
+			RiotAPIKey              string `json:"riot_api_key"`
 		}{}
 
 		json.Unmarshal(raw, &specified)
@@ -81,7 +85,19 @@ func Setup() {
 
 			defaults.MaxTimeAgo = timeago
 		}
+
+		if specified.RiotAPIKey != "" {
+			defaults.RiotAPIKey = specified.RiotAPIKey
+		}
+	}
+
+	if os.Getenv("RIOT_API_KEY") != "" {
+		defaults.RiotAPIKey = os.Getenv("RIOT_API_KEY")
 	}
 
 	Config = defaults
+
+	if defaults.RiotAPIKey == "" {
+		panic("No RIOT_API_KEY specified; cannot continue.")
+	}
 }
