@@ -5,7 +5,6 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"strconv"
 
 	"github.com/anyweez/matchgrab/config"
@@ -65,7 +64,7 @@ func Get(url string, cb func(body []byte)) (error, int) {
 		return errors.New("Rate limit exceeded; pausing..."), DefaultWaitSeconds
 	}
 
-  	// Decode the body first if its gzip'd.
+	// Decode the body first if its gzip'd.
 	src := resp.Body
 	if resp.Header.Get("Content-Encoding") == "gzip" {
 		src, _ = gzip.NewReader(src)

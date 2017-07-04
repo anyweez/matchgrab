@@ -15,12 +15,10 @@ import (
 )
 
 var done chan bool
-var requestRoutines chan bool // respawn routines if they die
 var matches *structs.IDList
 var summoners *structs.IDList
 var store *structs.MatchStore
 var ui *display.Display
-var rateLimit chan bool
 
 var knownSummoners map[structs.RiotID]bool
 var ksLock sync.Mutex
@@ -31,22 +29,12 @@ func main() {
 
 	knownSummoners = make(map[structs.RiotID]bool, 0)
 	done = make(chan bool)
-	requestRoutines = make(chan bool, config.Config.MaxSimultaneousRequests)
-	rateLimit = make(chan bool, 100)
 	matches = structs.NewIDList()
 	summoners = structs.NewIDList()
 	store = structs.NewMatchStore(config.Config.MatchStoreLocation)
 	ui = display.NewDisplay(Shutdown)
 
 	summoners.Add(config.Config.SeedAccount)
-
-	// Rate limit channel
-	go func() {
-		for {
-			rateLimit <- true
-			time.Sleep((1 * time.Minute) / time.Duration(config.Config.RequestsPerMinute))
-		}
-	}()
 
 	// Load all existing matches and summoners in parallel
 	store.Each(func(m *structs.Match) {
