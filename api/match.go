@@ -1,6 +1,7 @@
 package api
 
 import (
+	"compress/gzip"
 	"errors"
 	"io/ioutil"
 	"net/http"
@@ -30,6 +31,7 @@ func Get(url string, cb func(body []byte)) (error, int) {
 		return err, 0
 	}
 	request.Header.Set("X-Riot-Token", config.Config.RiotAPIKey)
+	request.Header.Set("Accept-Encoding", "gzip")
 
 	resp, err := client.Do(request)
 
@@ -63,7 +65,14 @@ func Get(url string, cb func(body []byte)) (error, int) {
 		return errors.New("Rate limit exceeded; pausing..."), DefaultWaitSeconds
 	}
 
-	raw, err := ioutil.ReadAll(resp.Body)
+  	// Decode the body first if its gzip'd.
+	src := resp.Body
+	if resp.Header.Get("Content-Encoding") == "gzip" {
+		src, _ = gzip.NewReader(src)
+	}
+
+	raw, err := ioutil.ReadAll(src)
+
 	if err != nil {
 		return err, 0
 	}
