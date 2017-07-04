@@ -107,10 +107,12 @@ func requestLoop() {
 
 		if rand.Float32() < matches.Filled() { // Request match
 			wait = getMatch()
-
 			requestLog <- time.Now()
 		} else if summoners.Available() { // Request summoner games
 			wait = getSummoner()
+			requestLog <- time.Now()
+		} else if matches.Available() { // fallback if no summoners are available
+			wait = getMatch()
 			requestLog <- time.Now()
 		}
 

@@ -1,13 +1,14 @@
 package structs
 
 import (
-	"bytes"
-	"encoding/gob"
 	"sync"
 
 	"github.com/syndtr/goleveldb/leveldb"
 )
 
+// MatchStore : Represents a persistent data store for match data. Implements a thin layer over
+// a LevelDB instance and is capable of reading and writing match data to the database. All
+// writes are serialized and its therefore safe to call `Add()` from multiple goroutines.
 type MatchStore struct {
 	queue     chan Match
 	db        *leveldb.DB
@@ -69,15 +70,8 @@ func (ms *MatchStore) Each(fn func(*Match)) {
 	iter := ms.db.NewIterator(nil, nil)
 
 	for iter.Next() {
-		value := iter.Value()
-
-		buf := bytes.NewBuffer(value)
-		dec := gob.NewDecoder(buf)
-
-		match := Match{}
-		dec.Decode(&match)
-
-		fn(&match)
+		match := MakeMatch(iter.Value())
+		fn(match)
 
 		if !ms.countInit {
 			ms.count++
