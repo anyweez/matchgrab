@@ -96,7 +96,7 @@ func NewDisplay(cleanup func()) *Display {
 		termui.StopLoop()
 		termui.Close()
 
-		cleanup()
+		cleanup() // callback for main process cleanup
 	})
 
 	termui.Handle("/timer/1s", func(termui.Event) {

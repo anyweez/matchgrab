@@ -14,7 +14,6 @@ import (
 	"github.com/anyweez/matchgrab/structs"
 )
 
-var done chan bool
 var matches *structs.IDList
 var summoners *structs.IDList
 var store *structs.MatchStore
@@ -28,7 +27,6 @@ func main() {
 	config.Setup()
 
 	knownSummoners = make(map[structs.RiotID]bool, 0)
-	done = make(chan bool)
 	matches = structs.NewIDList()
 	summoners = structs.NewIDList()
 	store = structs.NewMatchStore(config.Config.MatchStoreLocation)
@@ -59,8 +57,6 @@ func main() {
 
 	// Start requesting and never stop.
 	requestLoop()
-
-	<-done
 }
 
 func requestLoop() {
@@ -215,9 +211,9 @@ func getSummoner() int {
 
 // Shutdown : Called by termui when the user indicates they want to quit
 func Shutdown() {
+	fmt.Println("Saving remaining match data...")
 	store.Close()
 
-	done <- true
-
+	fmt.Println("Complete. Exiting...")
 	os.Exit(0)
 }
