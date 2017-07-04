@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+// Maps to struct defined in structs/match.go
+message Match {
+    int64 GameID = 1;
+    int32 SeasonID = 2;
+    int64 GameCreation = 3;
+    int32 GameDuration = 4;
+
+    repeated Participant Participants = 5;
+    repeated int64 Bans = 6;
+
+    string GameMode = 7;
+    int32 MapID = 8;
+    string GameType = 9;
+}
+
+message Participant {
+    string SummonerName = 1;
+    int64 AccountID = 2;
+    int32 ProfileIcon = 3;
+    int64 SummonerID = 4;
+    int64 ChampionID = 5;
+    int32 TeamID = 6;
+
+    bool Winner = 7;
+}
