@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	copyInterval = 10 * time.Minute
+	copyInterval = 1 * time.Hour
 )
 
 // MatchStore : Represents a persistent data store for match data. Implements a thin layer over
