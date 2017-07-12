@@ -1,0 +1,11 @@
+language: go
+
+go:
+  - 1.8
+  - 1.7
+  - 1.6
+  - master
+
+install:
+  - go get -u github.com/kardianos/govendor
+  - govendor update +v
