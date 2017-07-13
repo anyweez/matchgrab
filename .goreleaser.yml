@@ -1,0 +1,25 @@
+builds:
+  - main: grab.go
+    binary: grab
+    goos:
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
+# Archive customization
+archive:
+  format: tar.gz
+
+  # Customize the name of the packages.
+  replacements:
+    amd64: 64-bit
+    darwin: macOS
+
+  # Everything gets .tar.gz except for Windows.
+  format_overrides:
+    - goos: windows
+      format: zip
+
+  files:
+    - LICENSE.txt
