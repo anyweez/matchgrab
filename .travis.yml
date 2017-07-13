@@ -1,12 +1,12 @@
 language: go
 
 go:
+  - master
   - 1.8
   - 1.7
   - 1.6
-  - master
 
-install:
+before_install:
   - go get -u github.com/kardianos/govendor
   - go get github.com/mattn/goveralls
   - govendor sync
