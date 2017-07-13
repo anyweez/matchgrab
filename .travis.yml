@@ -15,4 +15,5 @@ script:
   - goveralls -service=travis-ci
 
 after_success:
+  - git checkout .
   - test -n "$TRAVIS_TAG" && curl -sL https://git.io/goreleaser | bash

@@ -1,8 +1,11 @@
 # Matchgrab: League of Legends match importer
 
+[![Build Status](https://travis-ci.org/anyweez/matchgrab.svg?branch=master)](https://travis-ci.org/anyweez/matchgrab)
+[![Coverage Status](https://coveralls.io/repos/github/anyweez/matchgrab/badge.svg)](https://coveralls.io/github/anyweez/matchgrab)
+
 Matchgrab retrieves League of Legends match data from [Riot's API](https://developer.riotgames.com). It starts with a seed user, starts downloading match data for that user, and then performs the same process for other summoners who played in the downloaded matches. It continues this process until you stop it.
 
-You must have an [API key issued by Riot](https://developer.riotgames.com/) in order to use this tool, and you will only be able to download data at the rates that Riot allows. 
+You must have an [API key issued by Riot](https://developer.riotgames.com/) in order to use this tool, and you will only be able to download data at the rates that Riot allows.
 
 ## Collecting data
 
