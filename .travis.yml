@@ -8,4 +8,8 @@ go:
 
 install:
   - go get -u github.com/kardianos/govendor
+  - go get github.com/mattn/goveralls
   - govendor sync
+
+script:
+  - goveralls -service=travis-ci
