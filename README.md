@@ -37,9 +37,23 @@ riot_api_key            : copy and paste your API key from Riot here; used for a
 
 Matchgrab records data to a [LevelDB database](https://github.com/google/leveldb) that contains the data described in [Match.proto](https://github.com/anyweez/matchgrab/blob/master/Match.proto). In order to read the data, you'll need to find some libraries in your language of choice that allow you to read LevelDB databases and then decode the data stored there (encoded using [Google's protocol buffers](https://developers.google.com/protocol-buffers/)). A few recommendations include:
 
-- For **Python**: [leveldb-py](https://github.com/jtolds/leveldb-py) and Google's [protobuf library](https://github.com/google/protobuf)
+- For **Python**: [plyvel](https://github.com/wbolster/plyvel) and Google's [protobuf library](https://github.com/google/protobuf)
 - For **Java**: [leveldbjni](https://github.com/fusesource/leveldbjni) and Google's [protobuf library](https://github.com/google/protobuf)
 - For **Javascript**: [levelup](https://github.com/Level/levelup) and [protobuf.js](https://github.com/dcodeIO/ProtoBuf.js/)
+
+You can see a few examples of data accesses in Python by checking out `preview.py`.
+
+## Checking data
+
+This repo includes a very simple Python server that provides limited access to data as well as an example of how to access the database using Python's LevelDB + protobuf libraries. Available endpoints include:
+
+```
+  GET   /accounts         list all summoner names with associated account id's
+  GET   /account/([0-9]+) get available matches for the specified account id
+  GET   /match/([0-9]+)   get information about an individual match
+```
+
+All endpoints return JSON.
 
 ## Rate limits
 
