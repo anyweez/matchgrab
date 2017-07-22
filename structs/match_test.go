@@ -4,6 +4,8 @@ import (
 	"testing"
 )
 
+// Included in a map[RiotID] to indicate whether an individual champion is
+// { banned, picked, won } in a match.
 type champStatus struct {
   Banned  bool
   Picked  bool
