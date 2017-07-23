@@ -429,7 +429,7 @@ func MakeMatch(buf []byte) *Match {
 				FirstBloodKill:                  p.Stats.GetFirstBloodKill(),
 				FirstBloodAssist:                p.Stats.GetFirstBloodAssist(),
 				FirstTowerKill:                  p.Stats.GetFirstTowerKill(),
-				FirstTowerAssist:                p.Stats.GetFirstBloodAssist(),
+				FirstTowerAssist:                p.Stats.GetFirstTowerAssist(),
 				FirstInhibitorKill:              p.Stats.GetFirstInhibitorKill(),
 				FirstInhibitorAssist:            p.Stats.GetFirstInhibitorAssist(),
 				CombatPlayerScore:               p.Stats.GetCombatPlayerScore(),
