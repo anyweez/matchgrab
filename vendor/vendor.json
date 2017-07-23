@@ -39,10 +39,16 @@
 			"revisionTime": "2015-03-14T17:03:34Z"
 		},
 		{
-			"checksumSHA1": "ygaqVZGjTkO28TNBBuUT8rnSNAo=",
+			"checksumSHA1": "qpYXKXV8kz5Fh9w3VqpMhvs90Co=",
 			"path": "github.com/nsf/termbox-go",
 			"revision": "4163cd39dda1c0dda883a713640bc01e08951c24",
 			"revisionTime": "2017-06-11T15:59:04Z"
+		},
+		{
+			"checksumSHA1": "bbilAC3Am0MP1lPfSKblFsIvg4Q=",
+			"path": "github.com/spaolacci/murmur3",
+			"revision": "0d12bf811670bf6a1a63828dfbd003eded177fce",
+			"revisionTime": "2015-08-29T17:28:44Z"
 		},
 		{
 			"checksumSHA1": "hJ6SwC7uTeTjadQO6jY679nEkqo=",
@@ -115,6 +121,18 @@
 			"path": "github.com/syndtr/goleveldb/leveldb/util",
 			"revision": "3c5717caf1475fd25964109a0fc640bd150fce43",
 			"revisionTime": "2017-03-02T03:19:10Z"
+		},
+		{
+			"checksumSHA1": "6KZEap6v/5gD+tjiNbpD81kD61o=",
+			"path": "github.com/willf/bitset",
+			"revision": "988f4f24992fc745de53c42df0da6581e42a6686",
+			"revisionTime": "2017-05-05T19:16:46Z"
+		},
+		{
+			"checksumSHA1": "yyysY3Ior4jy2HtchTxlP1ayIvQ=",
+			"path": "github.com/willf/bloom",
+			"revision": "54e3b963ee1652b06c4562cb9b6020ebc6e36e59",
+			"revisionTime": "2017-05-05T22:16:40Z"
 		}
 	],
 	"rootPath": "github.com/anyweez/matchgrab"
