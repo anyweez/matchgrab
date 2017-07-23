@@ -5,5 +5,6 @@
     "max_sim_requests": 4,
     "requests_per_min": 30,
     "max_time_ago": "1440h",
+    "keep_stats": false,
     "riot_api_key": null
 }

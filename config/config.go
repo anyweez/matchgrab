@@ -18,6 +18,7 @@ type config struct {
 	RequestsPerMinute       int           `json:"requests_per_min"`
 	MaxTimeAgo              time.Duration `json:"max_time_ago"`
 	RiotAPIKey              string        `json:"riot_api_key"`
+	KeepStats               bool          `json:"keep_stats"`
 }
 
 var Config config
@@ -35,6 +36,7 @@ func Setup() {
 		RequestsPerMinute:       480,
 		MaxTimeAgo:              time.Duration(60 * 24 * time.Hour), // 60 days
 		RiotAPIKey:              "",
+		KeepStats:               false,
 	}
 
 	// TODO: probably a cleaner way to do this; need to find golang pattern
@@ -48,6 +50,7 @@ func Setup() {
 			RequestsPerMinute       int    `json:"requests_per_min"`
 			MaxTimeAgo              string `json:"max_time_ago"`
 			RiotAPIKey              string `json:"riot_api_key"`
+			KeepStats               bool   `json:"keep_stats"`
 		}{}
 
 		json.Unmarshal(raw, &specified)
@@ -89,6 +92,8 @@ func Setup() {
 		if specified.RiotAPIKey != "" {
 			defaults.RiotAPIKey = specified.RiotAPIKey
 		}
+
+		specified.KeepStats = defaults.KeepStats
 	}
 
 	if os.Getenv("RIOT_API_KEY") != "" {
