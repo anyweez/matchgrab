@@ -24,4 +24,72 @@ message Participant {
     int32 TeamID = 6;
 
     bool Winner = 7;
+
+    ParticipantStats Stats = 8;
+}
+
+message ParticipantStats {
+    int32 Spell1 = 1;
+    int32 Spell2 = 2;
+
+    repeated int32 masteries = 4;
+    repeated int32 Runes = 5;
+    repeated int32 Items = 6;
+
+    int32 Kills = 7;
+    int32 Deaths = 8;
+    int32 Assists = 9;
+    int32 LargestKillingSpree = 10;
+    int32 LargestMultiKill = 11;
+    int32 KillingSprees = 12;
+    int32 LongestTimeSpentLiving = 13;
+    int32 DoubleKills = 14;
+    int32 TripleKills = 15;
+    int32 QuadraKills = 16;
+    int32 PentaKills = 17;
+    int32 UnrealKills = 18;
+    int32 TotalDamageDealt = 19;
+    int32 MagicDamageDealt = 20;
+    int32 PhysicalDamageDealt = 21;
+    int32 TrueDamageDealt = 22;
+    int32 LargestCriticalStrike = 23;
+    int32 TotalDamageDealtToChampions = 24;
+    int32 MagicDamageDealtToChampions = 25;
+    int32 PhysicalDamageDealtToChampions = 26;
+    int32 TrueDamageDealtToChampions = 27;
+    int32 TotalHeal = 28;
+    int32 TotalUnitsHealed = 29;
+    int32 DamageSelfMitigated = 30;
+    int32 DamageDealtToObjectives = 31;
+    int32 DamageDealtToTurrets = 32;
+    int32 VisionScore = 33;
+    int32 TimeCCingOthers = 34;
+    int32 TotalDamageTaken = 35;
+    int32 MagicalDamageTaken = 36;
+    int32 PhysicalDamageTaken = 37;
+    int32 TrueDamageTaken = 38;
+    int32 GoldEarned = 39;
+    int32 GoldSpent = 40;
+    int32 TurretKills = 41;
+    int32 InhibitorKills = 42;
+    int32 TotalMinionsKilled = 43;
+    int32 NeutralMinionsKilled = 44;
+    int32 NeutralMinionsKilledTeamJungle = 45;
+    int32 NeutralMinionsKilledEnemyJungle = 46;
+    int32 TotalTimeCrowdControlDealt = 47;
+    int32 ChampLevel = 48;
+    int32 VisionWardsBoughtInGame = 49;
+    int32 SightWardsBoughtInGame = 50;
+    int32 WardsPlaced = 51;
+    int32 WardsKilled = 52;
+    bool FirstBloodKill = 53;
+    bool FirstBloodAssist = 54;
+    bool FirstTowerKill = 55;
+    bool FirstTowerAssist = 56;
+    bool FirstInhibitorKill = 57;
+    bool FirstInhibitorAssist = 58;
+    int32 CombatPlayerScore = 59;
+    int32 ObjectivePlayerScore = 60;
+    int32 TotalPlayerScore = 61;
+    int32 TotalScoreRank = 62;
 }

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='proto/match.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x11proto/match.proto\"\xba\x01\n\x05Match\x12\x0e\n\x06GameID\x18\x01 \x01(\x03\x12\x10\n\x08SeasonID\x18\x02 \x01(\x05\x12\x14\n\x0cGameCreation\x18\x03 \x01(\x03\x12\x14\n\x0cGameDuration\x18\x04 \x01(\x05\x12\"\n\x0cParticipants\x18\x05 \x03(\x0b\x32\x0c.Participant\x12\x0c\n\x04\x42\x61ns\x18\x06 \x03(\x03\x12\x10\n\x08GameMode\x18\x07 \x01(\t\x12\r\n\x05MapID\x18\x08 \x01(\x05\x12\x10\n\x08GameType\x18\t \x01(\t\"\x93\x01\n\x0bParticipant\x12\x14\n\x0cSummonerName\x18\x01 \x01(\t\x12\x11\n\tAccountID\x18\x02 \x01(\x03\x12\x13\n\x0bProfileIcon\x18\x03 \x01(\x05\x12\x12\n\nSummonerID\x18\x04 \x01(\x03\x12\x12\n\nChampionID\x18\x05 \x01(\x03\x12\x0e\n\x06TeamID\x18\x06 \x01(\x05\x12\x0e\n\x06Winner\x18\x07 \x01(\x08\x62\x06proto3')
+  serialized_pb=_b('\n\x11proto/match.proto\"\xba\x01\n\x05Match\x12\x0e\n\x06GameID\x18\x01 \x01(\x03\x12\x10\n\x08SeasonID\x18\x02 \x01(\x05\x12\x14\n\x0cGameCreation\x18\x03 \x01(\x03\x12\x14\n\x0cGameDuration\x18\x04 \x01(\x05\x12\"\n\x0cParticipants\x18\x05 \x03(\x0b\x32\x0c.Participant\x12\x0c\n\x04\x42\x61ns\x18\x06 \x03(\x03\x12\x10\n\x08GameMode\x18\x07 \x01(\t\x12\r\n\x05MapID\x18\x08 \x01(\x05\x12\x10\n\x08GameType\x18\t \x01(\t\"\xb5\x01\n\x0bParticipant\x12\x14\n\x0cSummonerName\x18\x01 \x01(\t\x12\x11\n\tAccountID\x18\x02 \x01(\x03\x12\x13\n\x0bProfileIcon\x18\x03 \x01(\x05\x12\x12\n\nSummonerID\x18\x04 \x01(\x03\x12\x12\n\nChampionID\x18\x05 \x01(\x03\x12\x0e\n\x06TeamID\x18\x06 \x01(\x05\x12\x0e\n\x06Winner\x18\x07 \x01(\x08\x12 \n\x05Stats\x18\x08 \x01(\x0b\x32\x11.ParticipantStats\"\xb6\x0c\n\x10ParticipantStats\x12\x0e\n\x06Spell1\x18\x01 \x01(\x05\x12\x0e\n\x06Spell2\x18\x02 \x01(\x05\x12\x11\n\tmasteries\x18\x04 \x03(\x05\x12\r\n\x05Runes\x18\x05 \x03(\x05\x12\r\n\x05Items\x18\x06 \x03(\x05\x12\r\n\x05Kills\x18\x07 \x01(\x05\x12\x0e\n\x06\x44\x65\x61ths\x18\x08 \x01(\x05\x12\x0f\n\x07\x41ssists\x18\t \x01(\x05\x12\x1b\n\x13LargestKillingSpree\x18\n \x01(\x05\x12\x18\n\x10LargestMultiKill\x18\x0b \x01(\x05\x12\x15\n\rKillingSprees\x18\x0c \x01(\x05\x12\x1e\n\x16LongestTimeSpentLiving\x18\r \x01(\x05\x12\x13\n\x0b\x44oubleKills\x18\x0e \x01(\x05\x12\x13\n\x0bTripleKills\x18\x0f \x01(\x05\x12\x13\n\x0bQuadraKills\x18\x10 \x01(\x05\x12\x12\n\nPentaKills\x18\x11 \x01(\x05\x12\x13\n\x0bUnrealKills\x18\x12 \x01(\x05\x12\x18\n\x10TotalDamageDealt\x18\x13 \x01(\x05\x12\x18\n\x10MagicDamageDealt\x18\x14 \x01(\x05\x12\x1b\n\x13PhysicalDamageDealt\x18\x15 \x01(\x05\x12\x17\n\x0fTrueDamageDealt\x18\x16 \x01(\x05\x12\x1d\n\x15LargestCriticalStrike\x18\x17 \x01(\x05\x12#\n\x1bTotalDamageDealtToChampions\x18\x18 \x01(\x05\x12#\n\x1bMagicDamageDealtToChampions\x18\x19 \x01(\x05\x12&\n\x1ePhysicalDamageDealtToChampions\x18\x1a \x01(\x05\x12\"\n\x1aTrueDamageDealtToChampions\x18\x1b \x01(\x05\x12\x11\n\tTotalHeal\x18\x1c \x01(\x05\x12\x18\n\x10TotalUnitsHealed\x18\x1d \x01(\x05\x12\x1b\n\x13\x44\x61mageSelfMitigated\x18\x1e \x01(\x05\x12\x1f\n\x17\x44\x61mageDealtToObjectives\x18\x1f \x01(\x05\x12\x1c\n\x14\x44\x61mageDealtToTurrets\x18  \x01(\x05\x12\x13\n\x0bVisionScore\x18! \x01(\x05\x12\x17\n\x0fTimeCCingOthers\x18\" \x01(\x05\x12\x18\n\x10TotalDamageTaken\x18# \x01(\x05\x12\x1a\n\x12MagicalDamageTaken\x18$ \x01(\x05\x12\x1b\n\x13PhysicalDamageTaken\x18% \x01(\x05\x12\x17\n\x0fTrueDamageTaken\x18& \x01(\x05\x12\x12\n\nGoldEarned\x18\' \x01(\x05\x12\x11\n\tGoldSpent\x18( \x01(\x05\x12\x13\n\x0bTurretKills\x18) \x01(\x05\x12\x16\n\x0eInhibitorKills\x18* \x01(\x05\x12\x1a\n\x12TotalMinionsKilled\x18+ \x01(\x05\x12\x1c\n\x14NeutralMinionsKilled\x18, \x01(\x05\x12&\n\x1eNeutralMinionsKilledTeamJungle\x18- \x01(\x05\x12\'\n\x1fNeutralMinionsKilledEnemyJungle\x18. \x01(\x05\x12\"\n\x1aTotalTimeCrowdControlDealt\x18/ \x01(\x05\x12\x12\n\nChampLevel\x18\x30 \x01(\x05\x12\x1f\n\x17VisionWardsBoughtInGame\x18\x31 \x01(\x05\x12\x1e\n\x16SightWardsBoughtInGame\x18\x32 \x01(\x05\x12\x13\n\x0bWardsPlaced\x18\x33 \x01(\x05\x12\x13\n\x0bWardsKilled\x18\x34 \x01(\x05\x12\x16\n\x0e\x46irstBloodKill\x18\x35 \x01(\x08\x12\x18\n\x10\x46irstBloodAssist\x18\x36 \x01(\x08\x12\x16\n\x0e\x46irstTowerKill\x18\x37 \x01(\x08\x12\x18\n\x10\x46irstTowerAssist\x18\x38 \x01(\x08\x12\x1a\n\x12\x46irstInhibitorKill\x18\x39 \x01(\x08\x12\x1c\n\x14\x46irstInhibitorAssist\x18: \x01(\x08\x12\x19\n\x11\x43ombatPlayerScore\x18; \x01(\x05\x12\x1c\n\x14ObjectivePlayerScore\x18< \x01(\x05\x12\x18\n\x10TotalPlayerScore\x18= \x01(\x05\x12\x16\n\x0eTotalScoreRank\x18> \x01(\x05\x62\x06proto3')
 )
 
 
@@ -168,6 +168,13 @@ _PARTICIPANT = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='Stats', full_name='Participant.Stats', index=7,
+      number=8, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -181,12 +188,465 @@ _PARTICIPANT = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=211,
-  serialized_end=358,
+  serialized_end=392,
+)
+
+
+_PARTICIPANTSTATS = _descriptor.Descriptor(
+  name='ParticipantStats',
+  full_name='ParticipantStats',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='Spell1', full_name='ParticipantStats.Spell1', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='Spell2', full_name='ParticipantStats.Spell2', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='masteries', full_name='ParticipantStats.masteries', index=2,
+      number=4, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='Runes', full_name='ParticipantStats.Runes', index=3,
+      number=5, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='Items', full_name='ParticipantStats.Items', index=4,
+      number=6, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='Kills', full_name='ParticipantStats.Kills', index=5,
+      number=7, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='Deaths', full_name='ParticipantStats.Deaths', index=6,
+      number=8, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='Assists', full_name='ParticipantStats.Assists', index=7,
+      number=9, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='LargestKillingSpree', full_name='ParticipantStats.LargestKillingSpree', index=8,
+      number=10, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='LargestMultiKill', full_name='ParticipantStats.LargestMultiKill', index=9,
+      number=11, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='KillingSprees', full_name='ParticipantStats.KillingSprees', index=10,
+      number=12, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='LongestTimeSpentLiving', full_name='ParticipantStats.LongestTimeSpentLiving', index=11,
+      number=13, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='DoubleKills', full_name='ParticipantStats.DoubleKills', index=12,
+      number=14, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='TripleKills', full_name='ParticipantStats.TripleKills', index=13,
+      number=15, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='QuadraKills', full_name='ParticipantStats.QuadraKills', index=14,
+      number=16, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='PentaKills', full_name='ParticipantStats.PentaKills', index=15,
+      number=17, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='UnrealKills', full_name='ParticipantStats.UnrealKills', index=16,
+      number=18, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='TotalDamageDealt', full_name='ParticipantStats.TotalDamageDealt', index=17,
+      number=19, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='MagicDamageDealt', full_name='ParticipantStats.MagicDamageDealt', index=18,
+      number=20, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='PhysicalDamageDealt', full_name='ParticipantStats.PhysicalDamageDealt', index=19,
+      number=21, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='TrueDamageDealt', full_name='ParticipantStats.TrueDamageDealt', index=20,
+      number=22, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='LargestCriticalStrike', full_name='ParticipantStats.LargestCriticalStrike', index=21,
+      number=23, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='TotalDamageDealtToChampions', full_name='ParticipantStats.TotalDamageDealtToChampions', index=22,
+      number=24, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='MagicDamageDealtToChampions', full_name='ParticipantStats.MagicDamageDealtToChampions', index=23,
+      number=25, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='PhysicalDamageDealtToChampions', full_name='ParticipantStats.PhysicalDamageDealtToChampions', index=24,
+      number=26, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='TrueDamageDealtToChampions', full_name='ParticipantStats.TrueDamageDealtToChampions', index=25,
+      number=27, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='TotalHeal', full_name='ParticipantStats.TotalHeal', index=26,
+      number=28, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='TotalUnitsHealed', full_name='ParticipantStats.TotalUnitsHealed', index=27,
+      number=29, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='DamageSelfMitigated', full_name='ParticipantStats.DamageSelfMitigated', index=28,
+      number=30, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='DamageDealtToObjectives', full_name='ParticipantStats.DamageDealtToObjectives', index=29,
+      number=31, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='DamageDealtToTurrets', full_name='ParticipantStats.DamageDealtToTurrets', index=30,
+      number=32, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='VisionScore', full_name='ParticipantStats.VisionScore', index=31,
+      number=33, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='TimeCCingOthers', full_name='ParticipantStats.TimeCCingOthers', index=32,
+      number=34, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='TotalDamageTaken', full_name='ParticipantStats.TotalDamageTaken', index=33,
+      number=35, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='MagicalDamageTaken', full_name='ParticipantStats.MagicalDamageTaken', index=34,
+      number=36, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='PhysicalDamageTaken', full_name='ParticipantStats.PhysicalDamageTaken', index=35,
+      number=37, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='TrueDamageTaken', full_name='ParticipantStats.TrueDamageTaken', index=36,
+      number=38, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='GoldEarned', full_name='ParticipantStats.GoldEarned', index=37,
+      number=39, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='GoldSpent', full_name='ParticipantStats.GoldSpent', index=38,
+      number=40, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='TurretKills', full_name='ParticipantStats.TurretKills', index=39,
+      number=41, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='InhibitorKills', full_name='ParticipantStats.InhibitorKills', index=40,
+      number=42, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='TotalMinionsKilled', full_name='ParticipantStats.TotalMinionsKilled', index=41,
+      number=43, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='NeutralMinionsKilled', full_name='ParticipantStats.NeutralMinionsKilled', index=42,
+      number=44, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='NeutralMinionsKilledTeamJungle', full_name='ParticipantStats.NeutralMinionsKilledTeamJungle', index=43,
+      number=45, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='NeutralMinionsKilledEnemyJungle', full_name='ParticipantStats.NeutralMinionsKilledEnemyJungle', index=44,
+      number=46, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='TotalTimeCrowdControlDealt', full_name='ParticipantStats.TotalTimeCrowdControlDealt', index=45,
+      number=47, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='ChampLevel', full_name='ParticipantStats.ChampLevel', index=46,
+      number=48, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='VisionWardsBoughtInGame', full_name='ParticipantStats.VisionWardsBoughtInGame', index=47,
+      number=49, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='SightWardsBoughtInGame', full_name='ParticipantStats.SightWardsBoughtInGame', index=48,
+      number=50, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='WardsPlaced', full_name='ParticipantStats.WardsPlaced', index=49,
+      number=51, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='WardsKilled', full_name='ParticipantStats.WardsKilled', index=50,
+      number=52, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='FirstBloodKill', full_name='ParticipantStats.FirstBloodKill', index=51,
+      number=53, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='FirstBloodAssist', full_name='ParticipantStats.FirstBloodAssist', index=52,
+      number=54, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='FirstTowerKill', full_name='ParticipantStats.FirstTowerKill', index=53,
+      number=55, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='FirstTowerAssist', full_name='ParticipantStats.FirstTowerAssist', index=54,
+      number=56, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='FirstInhibitorKill', full_name='ParticipantStats.FirstInhibitorKill', index=55,
+      number=57, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='FirstInhibitorAssist', full_name='ParticipantStats.FirstInhibitorAssist', index=56,
+      number=58, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='CombatPlayerScore', full_name='ParticipantStats.CombatPlayerScore', index=57,
+      number=59, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='ObjectivePlayerScore', full_name='ParticipantStats.ObjectivePlayerScore', index=58,
+      number=60, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='TotalPlayerScore', full_name='ParticipantStats.TotalPlayerScore', index=59,
+      number=61, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='TotalScoreRank', full_name='ParticipantStats.TotalScoreRank', index=60,
+      number=62, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=395,
+  serialized_end=1985,
 )
 
 _MATCH.fields_by_name['Participants'].message_type = _PARTICIPANT
+_PARTICIPANT.fields_by_name['Stats'].message_type = _PARTICIPANTSTATS
 DESCRIPTOR.message_types_by_name['Match'] = _MATCH
 DESCRIPTOR.message_types_by_name['Participant'] = _PARTICIPANT
+DESCRIPTOR.message_types_by_name['ParticipantStats'] = _PARTICIPANTSTATS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Match = _reflection.GeneratedProtocolMessageType('Match', (_message.Message,), dict(
@@ -202,6 +662,13 @@ Participant = _reflection.GeneratedProtocolMessageType('Participant', (_message.
   # @@protoc_insertion_point(class_scope:Participant)
   ))
 _sym_db.RegisterMessage(Participant)
+
+ParticipantStats = _reflection.GeneratedProtocolMessageType('ParticipantStats', (_message.Message,), dict(
+  DESCRIPTOR = _PARTICIPANTSTATS,
+  __module__ = 'proto.match_pb2'
+  # @@protoc_insertion_point(class_scope:ParticipantStats)
+  ))
+_sym_db.RegisterMessage(ParticipantStats)
 
 
 # @@protoc_insertion_point(module_scope)
