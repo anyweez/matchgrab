@@ -2,6 +2,8 @@ package structs
 
 import (
 	"testing"
+
+	"github.com/anyweez/matchgrab/config"
 )
 
 type champStatus struct {
@@ -100,6 +102,284 @@ func TestCountsUnpacked(t *testing.T) {
 
 		if matches[0].Won(id) != outcome.Won {
 			t.Fail()
+		}
+	}
+}
+
+// TestFetchStats : Ensure we at least create a stats struct when we specify we
+// want to create stats.
+func TestFetchStats(t *testing.T) {
+	config.Setup()
+	config.Config.KeepStats = true
+
+	raws := rawSamples()
+
+	for _, raw := range raws {
+		m := ToMatch(raw)
+
+		for _, p := range m.Participants {
+			if p.Stats == nil {
+				t.Fail()
+			}
+		}
+	}
+}
+
+// TestNoStats : Ensure we don't create a stats struct when we specify we don't want stats.
+func TestNoStats(t *testing.T) {
+	config.Setup()
+	config.Config.KeepStats = false
+
+	raws := rawSamples()
+
+	for _, raw := range raws {
+		m := ToMatch(raw)
+
+		for _, p := range m.Participants {
+			if p.Stats != nil {
+				t.Fail()
+			}
+		}
+	}
+}
+
+// TestAPIMatchMapping : Ensure that ToMatch() copies all individual stats from APIMatch to
+// Match objects.
+func TestAPIMatchMapping(t *testing.T) {
+	config.Setup()
+	config.Config.KeepStats = true
+
+	raws := rawSamples()
+
+	for _, raw := range raws {
+		m := ToMatch(raw)
+
+		for i, p := range m.Participants {
+			rp := m.Participants[i]
+
+			if p.Stats.Assists != rp.Stats.Assists {
+				t.Fail()
+			}
+
+			if p.Stats.ChampLevel != rp.Stats.ChampLevel {
+				t.Fail()
+			}
+
+			if p.Stats.CombatPlayerScore != rp.Stats.CombatPlayerScore {
+				t.Fail()
+			}
+
+			if p.Stats.DamageDealtToObjectives != rp.Stats.DamageDealtToObjectives {
+				t.Fail()
+			}
+
+			if p.Stats.DamageDealtToTurrets != rp.Stats.DamageDealtToTurrets {
+				t.Fail()
+			}
+
+			if p.Stats.DamageSelfMitigated != rp.Stats.DamageSelfMitigated {
+				t.Fail()
+			}
+
+			if p.Stats.Deaths != rp.Stats.Deaths {
+				t.Fail()
+			}
+
+			if p.Stats.DoubleKills != rp.Stats.DoubleKills {
+				t.Fail()
+			}
+
+			if p.Stats.FirstBloodAssist != rp.Stats.FirstBloodAssist {
+				t.Fail()
+			}
+
+			if p.Stats.FirstBloodKill != rp.Stats.FirstBloodKill {
+				t.Fail()
+			}
+
+			if p.Stats.FirstInhibitorAssist != rp.Stats.FirstInhibitorAssist {
+				t.Fail()
+			}
+
+			if p.Stats.FirstInhibitorKill != rp.Stats.FirstInhibitorKill {
+				t.Fail()
+			}
+
+			if p.Stats.FirstTowerAssist != rp.Stats.FirstTowerAssist {
+				t.Fail()
+			}
+
+			if p.Stats.FirstTowerKill != rp.Stats.FirstTowerKill {
+				t.Fail()
+			}
+
+			if p.Stats.GoldEarned != rp.Stats.GoldEarned {
+				t.Fail()
+			}
+
+			if p.Stats.GoldSpent != rp.Stats.GoldSpent {
+				t.Fail()
+			}
+
+			if p.Stats.InhibitorKills != rp.Stats.InhibitorKills {
+				t.Fail()
+			}
+
+			if p.Stats.KillingSprees != rp.Stats.KillingSprees {
+				t.Fail()
+			}
+
+			if p.Stats.Kills != rp.Stats.Kills {
+				t.Fail()
+			}
+
+			if p.Stats.LargestCriticalStrike != rp.Stats.LargestCriticalStrike {
+				t.Fail()
+			}
+
+			if p.Stats.LargestKillingSpree != rp.Stats.LargestKillingSpree {
+				t.Fail()
+			}
+
+			if p.Stats.LargestMultiKill != rp.Stats.LargestMultiKill {
+				t.Fail()
+			}
+
+			if p.Stats.LongestTimeSpentLiving != rp.Stats.LongestTimeSpentLiving {
+				t.Fail()
+			}
+
+			if p.Stats.MagicalDamageTaken != rp.Stats.MagicalDamageTaken {
+				t.Fail()
+			}
+
+			if p.Stats.MagicDamageDealt != rp.Stats.MagicDamageDealt {
+				t.Fail()
+			}
+
+			if p.Stats.MagicDamageDealtToChampions != rp.Stats.MagicDamageDealtToChampions {
+				t.Fail()
+			}
+
+			if p.Stats.NeutralMinionsKilled != rp.Stats.NeutralMinionsKilled {
+				t.Fail()
+			}
+
+			if p.Stats.NeutralMinionsKilledEnemyJungle != rp.Stats.NeutralMinionsKilledEnemyJungle {
+				t.Fail()
+			}
+
+			if p.Stats.NeutralMinionsKilledTeamJungle != rp.Stats.NeutralMinionsKilledTeamJungle {
+				t.Fail()
+			}
+
+			if p.Stats.ObjectivePlayerScore != rp.Stats.ObjectivePlayerScore {
+				t.Fail()
+			}
+
+			if p.Stats.PentaKills != rp.Stats.PentaKills {
+				t.Fail()
+			}
+
+			if p.Stats.PhysicalDamageDealt != rp.Stats.PhysicalDamageDealt {
+				t.Fail()
+			}
+
+			if p.Stats.PhysicalDamageDealtToChampions != rp.Stats.PhysicalDamageDealtToChampions {
+				t.Fail()
+			}
+
+			if p.Stats.PhysicalDamageTaken != rp.Stats.PhysicalDamageTaken {
+				t.Fail()
+			}
+
+			if p.Stats.QuadraKills != rp.Stats.QuadraKills {
+				t.Fail()
+			}
+
+			if p.Stats.SightWardsBoughtInGame != rp.Stats.SightWardsBoughtInGame {
+				t.Fail()
+			}
+
+			if p.Stats.TimeCCingOthers != rp.Stats.TimeCCingOthers {
+				t.Fail()
+			}
+
+			if p.Stats.TotalDamageDealt != rp.Stats.TotalDamageDealt {
+				t.Fail()
+			}
+
+			if p.Stats.TotalDamageDealtToChampions != rp.Stats.TotalDamageDealtToChampions {
+				t.Fail()
+			}
+
+			if p.Stats.TotalDamageTaken != rp.Stats.TotalDamageTaken {
+				t.Fail()
+			}
+
+			if p.Stats.TotalHeal != rp.Stats.TotalHeal {
+				t.Fail()
+			}
+
+			if p.Stats.TotalMinionsKilled != rp.Stats.TotalMinionsKilled {
+				t.Fail()
+			}
+
+			if p.Stats.TotalPlayerScore != rp.Stats.TotalPlayerScore {
+				t.Fail()
+			}
+
+			if p.Stats.TotalScoreRank != rp.Stats.TotalScoreRank {
+				t.Fail()
+			}
+
+			if p.Stats.TotalTimeCrowdControlDealt != rp.Stats.TotalTimeCrowdControlDealt {
+				t.Fail()
+			}
+
+			if p.Stats.TotalUnitsHealed != rp.Stats.TotalUnitsHealed {
+				t.Fail()
+			}
+
+			if p.Stats.TripleKills != rp.Stats.TripleKills {
+				t.Fail()
+			}
+
+			if p.Stats.TrueDamageDealt != rp.Stats.TrueDamageDealt {
+				t.Fail()
+			}
+
+			if p.Stats.TrueDamageDealtToChampions != rp.Stats.TrueDamageDealtToChampions {
+				t.Fail()
+			}
+
+			if p.Stats.TrueDamageTaken != rp.Stats.TrueDamageTaken {
+				t.Fail()
+			}
+
+			if p.Stats.TurretKills != rp.Stats.TurretKills {
+				t.Fail()
+			}
+
+			if p.Stats.UnrealKills != rp.Stats.UnrealKills {
+				t.Fail()
+			}
+
+			if p.Stats.VisionScore != rp.Stats.VisionScore {
+				t.Fail()
+			}
+
+			if p.Stats.VisionWardsBoughtInGame != rp.Stats.VisionWardsBoughtInGame {
+				t.Fail()
+			}
+
+			if p.Stats.WardsKilled != rp.Stats.WardsKilled {
+				t.Fail()
+			}
+
+			if p.Stats.WardsPlaced != rp.Stats.WardsPlaced {
+				t.Fail()
+			}
 		}
 	}
 }

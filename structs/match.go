@@ -5,11 +5,19 @@ import (
 	"encoding/binary"
 	"time"
 
-	// "github.com/anyweez/matchgrab/config"
 	"github.com/anyweez/matchgrab/config"
 	protostruct "github.com/anyweez/matchgrab/proto"
 	"github.com/golang/protobuf/proto"
 )
+
+// This file contains definitions for the core data structures in matchgrab including Match and
+// Participant, as well as all functions that encode to / decode from those two structs. There are
+// also a handful of utility functions defined here, such as Match.Won(RiotID) and Match.Pack().
+//
+// A lot of this code is somewhat redundant because I have to copy between APIMatch, Match, and
+// protostruct.Match. They're all fairly similar in the information they hold, but the protobuf
+// version should be internal to this module only. Ideally we could cut back some of this but I'm
+// not sure its going to be a good idea in the long run.
 
 type rawMastery struct {
 	MasteryID int32 `json:"masteryId"`
@@ -19,7 +27,7 @@ type rawRune struct {
 	RuneID int32 `json:"runeId"`
 }
 
-// APIMatch : raw data returned from Riot's API. Converted to Match using ToMatch function
+// APIMatch : Raw data returned from Riot's API. Converted to Match using ToMatch() function.
 type APIMatch struct {
 	GameID       RiotID `json:"gameId"`
 	SeasonID     int    `json:"seasonId"`
@@ -121,10 +129,11 @@ type APIMatch struct {
 	GameType string `json:"gameType"`
 }
 
-// RiotID : Canonical identifier for everything that comes from Riot, including summoner ID's, champion ID's,
-// and account ID's.
+// RiotID : Canonical identifier for everything that comes from Riot, including summoner ID's,
+// champion ID's, and account ID's.
 type RiotID int64
 
+// Bytes : Encode RiotID as bytes.
 func (r RiotID) Bytes() []byte {
 	buf := new(bytes.Buffer)
 	binary.Write(buf, binary.BigEndian, r)
@@ -132,6 +141,11 @@ func (r RiotID) Bytes() []byte {
 	return buf.Bytes()
 }
 
+// Match : Primary structure used to store match information. Generated from APIMatch's using
+// ToMatch(), and can be encoded into a compact binary format for storage using Match.Bytes().
+//
+// This struct stores all information related to an individual match, including summoner stats
+// if Config.KeepStats is enabled.
 type Match struct {
 	GameID       RiotID `json:"gameId"`
 	SeasonID     int    `json:"seasonId"`
@@ -151,6 +165,7 @@ type Match struct {
 	packedWon    *PackedChampBooleanArray
 }
 
+// Pack : Improve lookup rates for bans, picks, and wins.
 func (m *Match) Pack(packer *ChampPack) {
 	if m.packed {
 		return
@@ -345,8 +360,8 @@ func (m Match) Bytes() []byte {
 	return buf
 }
 
-// MakeMatch : Convert an encoded byte array back into a match. This is
-// the inverse of Match.Bytes().
+// MakeMatch : Convert an encoded byte array back into a match. This is the inverse
+// of Match.Bytes().
 func MakeMatch(buf []byte) *Match {
 	pm := protostruct.Match{}
 
@@ -452,6 +467,7 @@ func MakeMatch(buf []byte) *Match {
 	return m
 }
 
+// Participant : Stores information about individual players, including stats if requested.
 type Participant struct {
 	SummonerName string `json:"summonerName"`
 	AccountID    RiotID `json:"accountId"`
@@ -548,7 +564,7 @@ func ToMatch(raw APIMatch) Match {
 
 		var stats *ParticipantStats
 
-		// TODO: add in KeepStats
+		// Keep stats if desired.
 		if config.Config.KeepStats {
 			stats = &ParticipantStats{
 				Kills:                           p.Stats.Kills,
