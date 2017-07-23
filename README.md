@@ -7,6 +7,12 @@ Matchgrab retrieves League of Legends match data from [Riot's API](https://devel
 
 You must have an [API key issued by Riot](https://developer.riotgames.com/) in order to use this tool, and you will only be able to download data at the rates that Riot allows. The default values in the configuration file should be safe for development keys.
 
+## Installing
+
+Most users can download the latest release from the [Releases](https://github.com/anyweez/matchgrab/releases) page. Make sure to choose the right release for your operating system. The package you download should include an executable program and a configuration file (see "Config options" section below for more info).
+
+If you'd like to build the code yourself, you can install all dependencies using [govendor](https://github.com/kardianos/govendor) and build using the standard Go build tools.
+
 ## Collecting data
 
 Check out the configuration file to make sure you're happy with all defaults; one thing you'll definitely need to change is to provide your [Riot-issued API key](https://developer.riotgames.com/) in the `riot_api_key` field. You'll likely also want to specify where match data should be saved using the `match_store_location` field as well.
@@ -31,11 +37,13 @@ requests_per_min        : the maximum number of requests per minute (note Riot's
 max_time_ago            : ignore matches beyond this age (default ~2 months)
 
 riot_api_key            : copy and paste your API key from Riot here; used for all requests that require one
+
+keep_stats              : whether stats for each match should be stored
 ```
 
 ## Accessing data
 
-Matchgrab records data to a [LevelDB database](https://github.com/google/leveldb) that contains the data described in [Match.proto](https://github.com/anyweez/matchgrab/blob/master/Match.proto). In order to read the data, you'll need to find some libraries in your language of choice that allow you to read LevelDB databases and then decode the data stored there (encoded using [Google's protocol buffers](https://developers.google.com/protocol-buffers/)). A few recommendations include:
+Matchgrab records data to a [LevelDB database](https://github.com/google/leveldb) that contains the data described in [Match.proto](https://github.com/anyweez/matchgrab/blob/master/proto/match.proto). In order to read the data, you'll need to find some libraries in your language of choice that allow you to read LevelDB databases and then decode the data stored there (encoded using [Google's protocol buffers](https://developers.google.com/protocol-buffers/)). A few recommendations include:
 
 - For **Python**: [plyvel](https://github.com/wbolster/plyvel) and Google's [protobuf library](https://github.com/google/protobuf)
 - For **Java**: [leveldbjni](https://github.com/fusesource/leveldbjni) and Google's [protobuf library](https://github.com/google/protobuf)
