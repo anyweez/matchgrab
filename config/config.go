@@ -5,14 +5,12 @@ import (
 	"io/ioutil"
 	"os"
 	"time"
-
-	"github.com/anyweez/matchgrab/structs"
 )
 
 type config struct {
-	HTTPTimeout        time.Duration  `json:"http_timeout"` // timeout on requests to Riot API
-	MatchStoreLocation string         `json:"match_store_location"`
-	SeedAccount        structs.RiotID `json:"seed_account"`
+	HTTPTimeout        time.Duration `json:"http_timeout"` // timeout on requests to Riot API
+	MatchStoreLocation string        `json:"match_store_location"`
+	SeedAccount        int64         `json:"seed_account"`
 
 	MaxSimultaneousRequests int           `json:"max_sim_requests"`
 	RequestsPerMinute       int           `json:"requests_per_min"`
@@ -42,9 +40,9 @@ func Setup() {
 	// TODO: probably a cleaner way to do this; need to find golang pattern
 	if err == nil {
 		specified := struct {
-			HTTPTimeout        string         `json:"http_timeout"` // timeout on requests to Riot API
-			MatchStoreLocation string         `json:"match_store_location"`
-			SeedAccount        structs.RiotID `json:"seed_account"`
+			HTTPTimeout        string `json:"http_timeout"` // timeout on requests to Riot API
+			MatchStoreLocation string `json:"match_store_location"`
+			SeedAccount        int64  `json:"seed_account"`
 
 			MaxSimultaneousRequests int    `json:"max_sim_requests"`
 			RequestsPerMinute       int    `json:"requests_per_min"`
@@ -93,7 +91,7 @@ func Setup() {
 			defaults.RiotAPIKey = specified.RiotAPIKey
 		}
 
-		specified.KeepStats = defaults.KeepStats
+		defaults.KeepStats = specified.KeepStats
 	}
 
 	if os.Getenv("RIOT_API_KEY") != "" {

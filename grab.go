@@ -32,7 +32,7 @@ func main() {
 	store = structs.NewMatchStore(config.Config.MatchStoreLocation)
 	ui = display.NewDisplay(Shutdown)
 
-	summoners.Add(config.Config.SeedAccount)
+	summoners.Add(structs.RiotID(config.Config.SeedAccount))
 
 	// Load all existing matches and summoners in parallel
 	store.Each(func(m *structs.Match) {
