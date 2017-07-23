@@ -9,6 +9,7 @@ import (
 
 const (
 	copyInterval = 1 * time.Hour
+	SnapshotSuffix = "-snapshot"
 )
 
 // MatchStore : Represents a persistent data store for match data. Implements a thin layer over
@@ -74,7 +75,7 @@ func makeMs(filename string, makeSnapshot bool) *MatchStore {
 				time.Sleep(copyInterval)
 
 				// Open, take snapshot, and then close. Keep the lock for as little time as possible.
-				backup := makeMs(filename+"-snapshot", false)
+				backup := makeMs(filename+SnapshotSuffix, false)
 				ms.Each(func(m *Match) {
 					backup.Add(*m)
 				})
@@ -94,7 +95,9 @@ func (ms *MatchStore) Count() int {
 
 // Add : Queue up a new match to be written asynchronously.
 func (ms *MatchStore) Add(m Match) {
-	ms.queue <- m
+	if ms.active {
+		ms.queue <- m		
+	}
 }
 
 // Each : Extract matches one by one.

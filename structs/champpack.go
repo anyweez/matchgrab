@@ -44,7 +44,7 @@ func (cp *ChampPack) AddRiotID(id RiotID) packedChampID {
 // GetPacked : Get a packedChampID for a previously-added RiotID. The boolean return value indicates whether
 // the specified RiotID is known, and if not then the first value should not be trusted.
 func (cp *ChampPack) GetPacked(id RiotID) (packedChampID, bool) {
-	if int(id) < len(cp.toUnpacked) {
+	if int(id) < len(cp.toPacked) {
 		return cp.toPacked[id], true
 	}
 
