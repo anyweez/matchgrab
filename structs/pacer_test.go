@@ -9,7 +9,7 @@ import (
 )
 
 func closeEnough(first float64, second float64) bool {
-	return math.Abs(first-second) < 0.25
+	return math.Abs(first-second) < 0.5
 }
 
 func TestLowRpsSerial(t *testing.T) {

@@ -52,9 +52,6 @@
     "riftHeraldKills": 0,
     "dominionVictoryScore": 0,
     "bans": [{
-      "championId": 141,
-      "pickTurn": 2
-    }, {
       "championId": 154,
       "pickTurn": 4
     }, {

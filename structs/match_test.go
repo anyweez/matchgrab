@@ -143,6 +143,34 @@ func TestNoStats(t *testing.T) {
 	}
 }
 
+func TestPackStats(t *testing.T) {
+	cp := NewRiotChampPack()
+
+	for _, r := range rawSamples() {
+		packed := ToMatch(r)
+		unpacked := ToMatch(r)
+
+		packed.Pack(cp)
+
+		// Make sure all the same champs were picked, banned, and marked as winners.
+		for i := 1; i < 300; i++ {
+			riotID := RiotID(i)
+
+			if packed.Picked(riotID) != unpacked.Picked(riotID) {
+				t.Fail()
+			}
+
+			if packed.Banned(riotID) != unpacked.Banned(riotID) {
+				t.Fail()
+			}
+
+			if packed.Won(riotID) != unpacked.Won(riotID) {
+				t.Fail()
+			}
+		}
+	}
+}
+
 // TestAPIMatchMapping : Ensure that ToMatch() copies all individual stats from APIMatch to
 // Match objects.
 func TestAPIMatchMapping(t *testing.T) {

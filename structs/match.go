@@ -3,7 +3,10 @@ package structs
 import (
 	"bytes"
 	"encoding/binary"
+	"fmt"
 	"time"
+
+	"log"
 
 	"github.com/anyweez/matchgrab/config"
 	protostruct "github.com/anyweez/matchgrab/proto"
@@ -159,10 +162,11 @@ type Match struct {
 	MapID    int    `json:"mapId"`
 	GameType string `json:"gameType"`
 
-	packed       bool
-	packedBans   *PackedChampBooleanArray
-	packedPicked *PackedChampBooleanArray
-	packedWon    *PackedChampBooleanArray
+	packed             bool
+	packedBans         *PackedChampBooleanArray
+	packedPicked       *PackedChampBooleanArray
+	packedWon          *PackedChampBooleanArray
+	packedParticipants map[RiotID]bool
 }
 
 // Pack : Improve lookup rates for bans, picks, and wins.
@@ -177,21 +181,38 @@ func (m *Match) Pack(packer *ChampPack) {
 	for _, b := range m.Bans {
 		// TODO: currently getting random -1's in ban list. Remove @ retrieval?
 		if b > 0 {
-			m.packedBans.Set(b, true)
+			err := m.packedBans.Set(b, true)
+			if err != nil {
+				log.Println(fmt.Sprintf("Unknown champion found while packing %d: %d", m.GameID, b))
+			}
 		}
 	}
 
 	m.packedPicked = NewPackedChampBooleanArray(packer)
 	for _, p := range m.Participants {
 		if p.ChampionID > 0 {
-			m.packedPicked.Set(p.ChampionID, true)
+			err := m.packedPicked.Set(p.ChampionID, true)
+			if err != nil {
+				log.Println(fmt.Sprintf("Unknown champion found while packing %d: %d", m.GameID, p.ChampionID))
+			}
 		}
 	}
 
 	m.packedWon = NewPackedChampBooleanArray(packer)
 	for _, p := range m.Participants {
 		if p.ChampionID > 0 {
-			m.packedWon.Set(p.ChampionID, p.Winner)
+			err := m.packedWon.Set(p.ChampionID, p.Winner)
+			if err != nil {
+				log.Println(fmt.Sprintf("Unknown champion found while packing %d: %d", m.GameID, p.ChampionID))
+			}
+		}
+	}
+
+	// TODO: Is this identical to packedPicked?
+	m.packedParticipants = make(map[RiotID]bool, len(m.Participants))
+	for _, p := range m.Participants {
+		if p.ChampionID > 0 {
+			m.packedParticipants[p.AccountID] = true
 		}
 	}
 }
@@ -210,6 +231,22 @@ func (m *Match) Banned(id RiotID) bool {
 
 	for _, ban := range m.Bans {
 		if ban == id {
+			return true
+		}
+	}
+
+	return false
+}
+
+// ContainsSummoner : Returns a boolean indicating whether the summoner played in this game.
+func (m *Match) ContainsSummoner(id RiotID) bool {
+	if m.packed {
+		_, exists := m.packedParticipants[id]
+		return exists
+	}
+
+	for _, p := range m.Participants {
+		if p.AccountID == id {
 			return true
 		}
 	}
