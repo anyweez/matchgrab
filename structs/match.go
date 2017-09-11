@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strconv"
 	"time"
 
 	"log"
@@ -142,6 +143,10 @@ func (r RiotID) Bytes() []byte {
 	binary.Write(buf, binary.BigEndian, r)
 
 	return buf.Bytes()
+}
+
+func (r RiotID) String() string {
+	return strconv.Itoa(int(r))
 }
 
 // Match : Primary structure used to store match information. Generated from APIMatch's using

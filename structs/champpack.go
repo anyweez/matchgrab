@@ -40,7 +40,7 @@ func NewChampPack(count int, maxID RiotID) *ChampPack {
 // NewRiotChampPack : Create a new champpack populated with summoner stats. This function makes a
 // request to Riot's API for the latest champion list.
 func NewRiotChampPack() *ChampPack {
-	resp, err := http.Get("http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion.json")
+	resp, err := http.Get("http://ddragon.leagueoflegends.com/cdn/7.15.1/data/en_US/champion.json")
 	if err != nil {
 		log.Fatal(err)
 	}

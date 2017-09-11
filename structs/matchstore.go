@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	copyInterval = 1 * time.Hour
+	copyInterval   = 1 * time.Hour
 	SnapshotSuffix = "-snapshot"
 )
 
@@ -96,8 +96,14 @@ func (ms *MatchStore) Count() int {
 // Add : Queue up a new match to be written asynchronously.
 func (ms *MatchStore) Add(m Match) {
 	if ms.active {
-		ms.queue <- m		
+		ms.queue <- m
 	}
+}
+
+func (ms *MatchStore) Get(id RiotID) (*Match, error) {
+	raw, err := ms.db.Get(id.Bytes(), nil)
+
+	return MakeMatch(raw), err
 }
 
 // Each : Extract matches one by one.
